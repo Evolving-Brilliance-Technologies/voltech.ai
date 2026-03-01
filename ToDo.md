@@ -8,3 +8,6 @@
     - [ ] Gov Dashboard 
     - [ ] Partner and Affiliate Dashboard 
     - [ ] Admin Portal - for Super Admins
+- [ ] Update the subdomain for each service
+- [ ] Add minio
+
