@@ -11,7 +11,10 @@ import PendingItems from "@/components/Pending/PendingItems"
 
 function getItemsQueryOptions() {
   return {
-    queryFn: () => ItemsService.readItems({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      ItemsService.readItems({ query: { skip: 0, limit: 100 } }).then(
+        (res) => res.data,
+      ),
     queryKey: ["items"],
   }
 }
@@ -30,7 +33,7 @@ export const Route = createFileRoute("/_layout/items")({
 function ItemsTableContent() {
   const { data: items } = useSuspenseQuery(getItemsQueryOptions())
 
-  if (items.data.length === 0) {
+  if (!items || items.data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center text-center py-12">
         <div className="rounded-full bg-muted p-4 mb-4">

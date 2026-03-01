@@ -3,26 +3,29 @@ import { defineConfig } from "@hey-api/openapi-ts"
 export default defineConfig({
   input: "./openapi.json",
   output: "./src/client",
-
   plugins: [
-    "legacy/axios",
+    {
+      name: "@hey-api/client-axios",
+      runtimeConfigPath: "../api/axiosInstance.ts",
+      bundle: false,
+    },
     {
       name: "@hey-api/sdk",
-      // NOTE: this doesn't allow tree-shaking
       asClass: true,
-      operationId: true,
-      classNameBuilder: "{{name}}Service",
-      methodNameBuilder: (operation) => {
-        // @ts-expect-error
-        let name: string = operation.name
-        // @ts-expect-error
-        const service: string = operation.service
-
-        if (service && name.toLowerCase().startsWith(service.toLowerCase())) {
-          name = name.slice(service.length)
-        }
-
-        return name.charAt(0).toLowerCase() + name.slice(1)
+      operations: {
+        strategy: "byTags",
+        methodName: (name: string) => {
+          let processed = name
+          const tags = ["login", "users", "utils", "items", "private"]
+          for (const tag of tags) {
+            if (processed.toLowerCase().startsWith(tag.toLowerCase())) {
+              processed = processed.slice(tag.length)
+              break
+            }
+          }
+          return processed.charAt(0).toLowerCase() + processed.slice(1)
+        },
+        containerName: (name: string) => `${name}Service`,
       },
     },
     {

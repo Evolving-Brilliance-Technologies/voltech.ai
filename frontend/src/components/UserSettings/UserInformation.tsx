@@ -49,8 +49,7 @@ const UserInformation = () => {
   }
 
   const mutation = useMutation({
-    mutationFn: (data: UserUpdateMe) =>
-      UsersService.updateUserMe({ requestBody: data }),
+    mutationFn: (data: UserUpdateMe) => UsersService.updateUserMe({ body: data }),
     onSuccess: () => {
       showSuccessToast("User updated successfully")
       toggleEditMode()
@@ -65,7 +64,7 @@ const UserInformation = () => {
     const updateData: UserUpdateMe = {}
 
     // only include fields that have changed
-    if (data.full_name !== currentUser?.full_name) {
+    if (data.full_name !== (currentUser?.full_name ?? undefined)) {
       updateData.full_name = data.full_name
     }
     if (data.email !== currentUser?.email) {

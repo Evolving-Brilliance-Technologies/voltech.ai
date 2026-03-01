@@ -11,7 +11,10 @@ import useAuth from "@/hooks/useAuth"
 
 function getUsersQueryOptions() {
   return {
-    queryFn: () => UsersService.readUsers({ skip: 0, limit: 100 }),
+    queryFn: () =>
+      UsersService.readUsers({ query: { skip: 0, limit: 100 } }).then(
+        (res) => res.data,
+      ),
     queryKey: ["users"],
   }
 }
@@ -19,8 +22,8 @@ function getUsersQueryOptions() {
 export const Route = createFileRoute("/_layout/admin")({
   component: Admin,
   beforeLoad: async () => {
-    const user = await UsersService.readUserMe()
-    if (!user.is_superuser) {
+    const { data: user } = await UsersService.readUserMe()
+    if (!user?.is_superuser) {
       throw redirect({
         to: "/",
       })
@@ -39,10 +42,11 @@ function UsersTableContent() {
   const { user: currentUser } = useAuth()
   const { data: users } = useSuspenseQuery(getUsersQueryOptions())
 
-  const tableData: UserTableData[] = users.data.map((user: UserPublic) => ({
-    ...user,
-    isCurrentUser: currentUser?.id === user.id,
-  }))
+  const tableData: UserTableData[] =
+    users?.data.map((user: UserPublic) => ({
+      ...user,
+      isCurrentUser: currentUser?.id === user.id,
+    })) || []
 
   return <DataTable columns={columns} data={tableData} />
 }
