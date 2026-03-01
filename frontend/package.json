@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "tsc": "tsc -p tsconfig.json",
     "build": "tsc -p tsconfig.build.json && vite build",
     "preview": "vite preview",
-    "format": "biome format --write .",
+    "format": "biome check --write .",
+    "format:check": "biome check .",
+    "format:fix": "biome check --write .",
+    "imports:sort": "biome check --write --unsafe .",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
-    "check": "biome check .",
-    "check:fix": "biome check --write --unsafe .",
     "generate-client": "openapi-ts",
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui"

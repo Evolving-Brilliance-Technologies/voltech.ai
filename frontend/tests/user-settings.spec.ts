@@ -92,7 +92,7 @@ test.describe("Cancel edit actions", () => {
   test("Cancel edit action restores original name", async ({ page }) => {
     const email = randomEmail();
     const password = randomPassword();
-    const user = await createUser({ email, password });
+    const { data: user } = await createUser({ email, password });
 
     await logInUser(page, email, password);
     await page.goto("/settings");
@@ -102,7 +102,7 @@ test.describe("Cancel edit actions", () => {
     await page.getByRole("button", { name: "Cancel" }).first().click();
 
     await expect(
-      page.locator("form").getByText(user.full_name as string, { exact: true })
+      page.locator("form").getByText(user!.full_name as string, { exact: true })
     ).toBeVisible();
   });
 
