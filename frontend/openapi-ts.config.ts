@@ -1,4 +1,4 @@
-import { defineConfig } from "@hey-api/openapi-ts"
+import { defineConfig } from "@hey-api/openapi-ts";
 
 export default defineConfig({
   input: "./openapi.json",
@@ -15,15 +15,15 @@ export default defineConfig({
       operations: {
         strategy: "byTags",
         methodName: (name: string) => {
-          let processed = name
-          const tags = ["login", "users", "utils", "items", "private"]
+          let processed = name;
+          const tags = ["login", "users", "utils", "items", "private"];
           for (const tag of tags) {
             if (processed.toLowerCase().startsWith(tag.toLowerCase())) {
-              processed = processed.slice(tag.length)
-              break
+              processed = processed.slice(tag.length);
+              break;
             }
           }
-          return processed.charAt(0).toLowerCase() + processed.slice(1)
+          return processed.charAt(0).toLowerCase() + processed.slice(1);
         },
         containerName: (name: string) => `${name}Service`,
       },
@@ -33,4 +33,4 @@ export default defineConfig({
       type: "json",
     },
   ],
-})
+});

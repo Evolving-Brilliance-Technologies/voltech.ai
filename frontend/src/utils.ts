@@ -1,27 +1,27 @@
-import { AxiosError } from "axios"
+import { AxiosError } from "axios";
 
 function extractErrorMessage(err: any): string {
   if (err instanceof AxiosError) {
-    return err.message
+    return err.message;
   }
 
-  const errDetail = err?.body?.detail || err?.response?.data?.detail
+  const errDetail = err?.body?.detail || err?.response?.data?.detail;
   if (Array.isArray(errDetail) && errDetail.length > 0) {
-    return errDetail[0].msg
+    return errDetail[0].msg;
   }
-  return errDetail || "Something went wrong."
+  return errDetail || "Something went wrong.";
 }
 
 export const handleError = function (this: (msg: string) => void, err: any) {
-  const errorMessage = extractErrorMessage(err)
-  this(errorMessage)
-}
+  const errorMessage = extractErrorMessage(err);
+  this(errorMessage);
+};
 
 export const getInitials = (name: string): string => {
   return name
     .split(" ")
     .slice(0, 2)
-    .map((word) => word[0])
+    .map(word => word[0])
     .join("")
-    .toUpperCase()
-}
+    .toUpperCase();
+};

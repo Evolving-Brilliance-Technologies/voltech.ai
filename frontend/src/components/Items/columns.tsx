@@ -1,15 +1,15 @@
-import type { ColumnDef } from "@tanstack/react-table"
-import { Check, Copy } from "lucide-react"
+import type { ColumnDef } from "@tanstack/react-table";
+import { Check, Copy } from "lucide-react";
 
-import type { ItemPublic } from "@/client"
-import { Button } from "@/components/ui/button"
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
-import { cn } from "@/lib/utils"
-import { ItemActionsMenu } from "./ItemActionsMenu"
+import type { ItemPublic } from "@/client";
+import { Button } from "@/components/ui/button";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { cn } from "@/lib/utils";
+import { ItemActionsMenu } from "./ItemActionsMenu";
 
 function CopyId({ id }: { id: string }) {
-  const [copiedText, copy] = useCopyToClipboard()
-  const isCopied = copiedText === id
+  const [copiedText, copy] = useCopyToClipboard();
+  const isCopied = copiedText === id;
 
   return (
     <div className="flex items-center gap-1.5 group">
@@ -28,7 +28,7 @@ function CopyId({ id }: { id: string }) {
         <span className="sr-only">Copy ID</span>
       </Button>
     </div>
-  )
+  );
 }
 
 export const columns: ColumnDef<ItemPublic>[] = [
@@ -48,17 +48,17 @@ export const columns: ColumnDef<ItemPublic>[] = [
     accessorKey: "description",
     header: "Description",
     cell: ({ row }) => {
-      const description = row.original.description
+      const description = row.original.description;
       return (
         <span
           className={cn(
             "max-w-xs truncate block text-muted-foreground",
-            !description && "italic",
+            !description && "italic"
           )}
         >
           {description || "No description"}
         </span>
-      )
+      );
     },
   },
   {
@@ -70,4 +70,4 @@ export const columns: ColumnDef<ItemPublic>[] = [
       </div>
     ),
   },
-]
+];
