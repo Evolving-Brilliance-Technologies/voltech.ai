@@ -1,5 +1,5 @@
-# Stage 1: Builder — uv with Python 3.12 alpine
-FROM ghcr.io/astral-sh/uv:python3.12-alpine AS builder
+# Stage 1: Builder — uv with Python 3.14 alpine
+FROM ghcr.io/astral-sh/uv:python3.14-alpine AS builder
 
 ENV PYTHONUNBUFFERED=1
 
@@ -41,7 +41,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 
 # Stage 2: Runner — lean alpine image for production
-FROM python:3.12-alpine
+FROM python:3.14-alpine
 
 RUN apk add --no-cache curl
 

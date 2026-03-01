@@ -5,6 +5,10 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
+from app.core.logging import configure_logging
+
+# Initialize structured logging before anything else
+configure_logging()
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
