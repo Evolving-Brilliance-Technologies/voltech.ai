@@ -43,11 +43,12 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Stage 2: Runner — lean alpine image for production
 FROM python:3.14-alpine
 
-RUN apk add --no-cache curl
+# Create a non-root user for security
+RUN addgroup -S app && adduser -S app -G app
 
 WORKDIR /app/backend/
 
-COPY --from=builder /app /app
+COPY --from=builder --chown=app:app /app /app
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
@@ -57,6 +58,8 @@ ENV PYTHONPATH=/app/backend
 ENV PORT=8000
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
-    CMD curl -f http://127.0.0.1:${PORT}/api/v1/utils/health-check/
+    CMD wget --spider -q http://127.0.0.1:${PORT}/api/v1/utils/health-check/
 
-CMD ["fastapi", "run", "--workers", "4", "app/main.py"]
+USER app
+
+ENTRYPOINT ["sh", "scripts/start.sh"]
