@@ -5,3 +5,25 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Environment — never commit secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+dist/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# OS
+.DS_Store
+Thumbs.db
