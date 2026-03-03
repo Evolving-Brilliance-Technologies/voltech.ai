@@ -17,9 +17,17 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@route-tree": [
+        "./src/routeTree.landing.gen.ts",
+        "./src/routeTree.impactmaker.gen.ts",
+        "./src/routeTree.changemaker.gen.ts",
+        "./src/routeTree.verifier.gen.ts",
+        "./src/routeTree.gov.gen.ts",
+        "./src/routeTree.partner.gen.ts",
+        "./src/routeTree.admin.gen.ts"
+      ]
     }
   },
   "include": ["src", "tests", "playwright.config.ts"],

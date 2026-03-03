@@ -5,7 +5,7 @@ import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "./components/ui/sonner";
 import "./index.css";
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "@route-tree";
 
 const queryClient = new QueryClient();
 
