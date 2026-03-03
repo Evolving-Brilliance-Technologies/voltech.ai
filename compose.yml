@@ -19,6 +19,25 @@ x-backend-env: &backend-env
   LOGGING_LEVEL: ${LOGGING_LEVEL}
   STRUCTURED_LOGGING: ${STRUCTURED_LOGGING}
 
+x-frontend-base: &frontend-base
+  restart: unless-stopped
+  networks:
+    - traefik-public
+    - default
+  build:
+    context: .
+    dockerfile: frontend/Dockerfile
+    args:
+      - VITE_API_URL=https://api.${DOMAIN?Variable not set}
+      - NODE_ENV=production
+  labels:
+    - traefik.enable=true
+    - traefik.docker.network=traefik-public
+    - traefik.constraint-label=traefik-public
+    - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
+    # Middleware for HTTPS redirect
+    - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect
+
 services:
 
   db:
@@ -105,35 +124,117 @@ services:
       # Enable redirection for HTTP and HTTPS
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.middlewares=https-redirect
 
-  frontend:
-    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
-    restart: unless-stopped
-    networks:
-      - traefik-public
-      - default
+  frontend-landing:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_LANDING}:${TAG-latest}'
     build:
       context: .
       dockerfile: frontend/Dockerfile
       args:
-        - VITE_API_URL=https://api.${DOMAIN?Variable not set}
-        - NODE_ENV=production
+        - TARGET=landing
     labels:
       - traefik.enable=true
-      - traefik.docker.network=traefik-public
-      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.landing-http.rule=Host(`landing.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.landing-https.rule=Host(`landing.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.landing-https.tls=true
+      - traefik.http.routers.landing-https.tls.certresolver=le
+      - traefik.http.services.landing.loadbalancer.server.port=80
 
-      - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
+  frontend-impactmaker:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_IMPACTMAKER}:${TAG-latest}'
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - TARGET=impactmaker
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.impactmaker-http.rule=Host(`impactmaker.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.impactmaker-https.rule=Host(`impactmaker.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.impactmaker-https.tls=true
+      - traefik.http.routers.impactmaker-https.tls.certresolver=le
+      - traefik.http.services.impactmaker.loadbalancer.server.port=80
 
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=Host(`dashboard.${DOMAIN?Variable not set}`)
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.entrypoints=http
+  frontend-changemaker:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_CHANGEMAKER}:${TAG-latest}'
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - TARGET=changemaker
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.changemaker-http.rule=Host(`changemaker.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.changemaker-https.rule=Host(`changemaker.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.changemaker-https.tls=true
+      - traefik.http.routers.changemaker-https.tls.certresolver=le
+      - traefik.http.services.changemaker.loadbalancer.server.port=80
 
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.rule=Host(`dashboard.${DOMAIN?Variable not set}`)
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.entrypoints=https
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls=true
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls.certresolver=le
+  frontend-verifier:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_VERIFIER}:${TAG-latest}'
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - TARGET=verifier
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.verifier-http.rule=Host(`verifier.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.verifier-https.rule=Host(`verifier.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.verifier-https.tls=true
+      - traefik.http.routers.verifier-https.tls.certresolver=le
+      - traefik.http.services.verifier.loadbalancer.server.port=80
 
-      # Enable redirection for HTTP and HTTPS
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect
+  frontend-gov:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_GOV}:${TAG-latest}'
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - TARGET=gov
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gov-http.rule=Host(`gov.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.gov-https.rule=Host(`gov.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.gov-https.tls=true
+      - traefik.http.routers.gov-https.tls.certresolver=le
+      - traefik.http.services.gov.loadbalancer.server.port=80
+
+  frontend-partner:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_PARTNER}:${TAG-latest}'
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - TARGET=partner
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.partner-http.rule=Host(`partner.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.partner-https.rule=Host(`partner.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.partner-https.tls=true
+      - traefik.http.routers.partner-https.tls.certresolver=le
+      - traefik.http.services.partner.loadbalancer.server.port=80
+
+  frontend-admin:
+    <<: *frontend-base
+    image: '${DOCKER_IMAGE_FRONTEND_ADMIN}:${TAG-latest}'
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - TARGET=admin
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.admin-http.rule=Host(`admin.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.admin-https.rule=Host(`admin.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.admin-https.tls=true
+      - traefik.http.routers.admin-https.tls.certresolver=le
+      - traefik.http.services.admin.loadbalancer.server.port=80
 
 volumes:
   app-db-data:

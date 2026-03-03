@@ -1,3 +1,26 @@
+x-frontend-dev: &frontend-dev
+  restart: "no"
+  build:
+    context: .
+    dockerfile: frontend/Dockerfile
+    target: build-stage
+    args:
+      - VITE_API_URL=http://localhost:8000
+      - NODE_ENV=development
+  develop:
+    watch:
+      - path: ./frontend/src
+        action: sync
+        target: /app/frontend/src
+        ignore:
+          - node_modules
+      - path: ./frontend/package.json
+        action: rebuild
+      - path: ./frontend/bun.lock
+        action: rebuild
+      - path: ./frontend/vite.config.ts
+        action: rebuild
+
 services:
 
   # Local services are available on their ports, but also available on:
@@ -89,33 +112,82 @@ services:
       - "1080:1080"
       - "1025:1025"
 
-  frontend:
-    restart: "no"
+  frontend-landing:
+    <<: *frontend-dev
     ports:
-      - "5173:5173"
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-      target: build-stage
-      args:
-        - VITE_API_URL=http://localhost:8000
-        - NODE_ENV=development
-    entrypoint: ["bun", "dev", "--", "--host", "0.0.0.0"]
-    develop:
-      watch:
-        - path: ./frontend/src
-          action: sync
-          target: /app/frontend/src
-          ignore:
-            - node_modules
-        - path: ./frontend/package.json
-          action: rebuild
-        - path: ./frontend/bun.lock
-          action: rebuild
-        - path: ./frontend/vite.config.ts
-          action: rebuild
-        - path: ./frontend/tsconfig.json
-          action: rebuild
+      - "3000:3000"
+    entrypoint: ["bun", "run", "dev:landing", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.landing-http.rule=Host(`landing.${DOMAIN?Variable not set}`)
+      - traefik.http.services.landing.loadbalancer.server.port=3000
+
+  frontend-impactmaker:
+    <<: *frontend-dev
+    ports:
+      - "3001:3001"
+    entrypoint: ["bun", "run", "dev:impactmaker", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.impactmaker-http.rule=Host(`impactmaker.${DOMAIN?Variable not set}`)
+      - traefik.http.services.impactmaker.loadbalancer.server.port=3001
+
+  frontend-changemaker:
+    <<: *frontend-dev
+    ports:
+      - "3002:3002"
+    entrypoint: ["bun", "run", "dev:changemaker", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.changemaker-http.rule=Host(`changemaker.${DOMAIN?Variable not set}`)
+      - traefik.http.services.changemaker.loadbalancer.server.port=3002
+
+  frontend-verifier:
+    <<: *frontend-dev
+    ports:
+      - "3003:3003"
+    entrypoint: ["bun", "run", "dev:verifier", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.verifier-http.rule=Host(`verifier.${DOMAIN?Variable not set}`)
+      - traefik.http.services.verifier.loadbalancer.server.port=3003
+
+  frontend-gov:
+    <<: *frontend-dev
+    ports:
+      - "3004:3004"
+    entrypoint: ["bun", "run", "dev:gov", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.gov-http.rule=Host(`gov.${DOMAIN?Variable not set}`)
+      - traefik.http.services.gov.loadbalancer.server.port=3004
+
+  frontend-partner:
+    <<: *frontend-dev
+    ports:
+      - "3005:3005"
+    entrypoint: ["bun", "run", "dev:partner", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.partner-http.rule=Host(`partner.${DOMAIN?Variable not set}`)
+      - traefik.http.services.partner.loadbalancer.server.port=3005
+
+  frontend-admin:
+    <<: *frontend-dev
+    ports:
+      - "3006:3006"
+    entrypoint: ["bun", "run", "dev:admin", "--", "--host", "0.0.0.0"]
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.admin-http.rule=Host(`admin.${DOMAIN?Variable not set}`)
+      - traefik.http.services.admin.loadbalancer.server.port=3006
 
   playwright:
     build:

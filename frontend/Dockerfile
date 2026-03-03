@@ -12,7 +12,11 @@ WORKDIR /app/frontend
 RUN bun install --frozen-lockfile
 
 COPY ./frontend /app/frontend
+ARG TARGET=app
 ARG VITE_API_URL
+
+ENV APP_TARGET=${TARGET}
+ENV VITE_API_URL=${VITE_API_URL}
 
 RUN bun run build
 

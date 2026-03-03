@@ -12,6 +12,7 @@
     "dev:partner": "APP_TARGET=partner vite --port 3005",
     "dev:admin": "APP_TARGET=admin vite --port 3006",
     "dev:all": "concurrently -k -p \"[{name}]\" -n \"LANDING,IMPACT,CHANGE,VERIFY,GOV,PARTNER,ADMIN\" -c \"bgBlue.bold,bgGreen.bold,bgMagenta.bold,bgCyan.bold,bgYellow.bold,bgRed.bold,bgWhite.bold\" \"bun:dev:landing\" \"bun:dev:impactmaker\" \"bun:dev:changemaker\" \"bun:dev:verifier\" \"bun:dev:gov\" \"bun:dev:partner\" \"bun:dev:admin\"",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "build:landing": "APP_TARGET=landing vite build --outDir dist/landing",
     "build:impactmaker": "APP_TARGET=impactmaker vite build --outDir dist/impactmaker",
     "build:changemaker": "APP_TARGET=changemaker vite build --outDir dist/changemaker",
