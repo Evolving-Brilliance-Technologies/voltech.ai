@@ -1,25 +1,106 @@
-docs:
-  - all:
-    - changed-files:
-      - any-glob-to-any-file:
-        - '**/*.md'
-      - all-globs-to-all-files:
-        - '!frontend/**'
-        - '!backend/**'
-        - '!.github/**'
-        - '!scripts/**'
-        - '!.gitignore'
-        - '!.pre-commit-config.yaml'
+# Auto-labeler configuration
+# Labels PRs based on which files are changed
 
-internal:
-  - all:
-    - changed-files:
+# ---------------------------------------------------------
+# Frontend Specific Targets
+# Matches any file inside a target's directory (e.g., frontend/src/routes/admin/**, frontend/src/components/admin/**, ...) 
+# or its generated TanStack route tree file.
+# ---------------------------------------------------------
+
+frontend-admin:
+  - changed-files:
       - any-glob-to-any-file:
-        - .github/**
-        - scripts/**
-        - .gitignore
-        - .pre-commit-config.yaml
+          - "frontend/src/**/admin/**"
+          - "frontend/src/routeTree.admin.gen.ts"
+
+frontend-changemaker:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/src/**/changemaker/**"
+          - "frontend/src/routeTree.changemaker.gen.ts"
+
+frontend-gov:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/src/**/gov/**"
+          - "frontend/src/routeTree.gov.gen.ts"
+
+frontend-impactmaker:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/src/**/impactmaker/**"
+          - "frontend/src/routeTree.impactmaker.gen.ts"
+
+frontend-landing:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/src/**/landing/**"
+          - "frontend/src/routeTree.landing.gen.ts"
+
+frontend-partner:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/src/**/partner/**"
+          - "frontend/src/routeTree.partner.gen.ts"
+
+frontend-verifier:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "frontend/src/**/verifier/**"
+          - "frontend/src/routeTree.verifier.gen.ts"
+
+# ---------------------------------------------------------
+# Frontend Common
+# ---------------------------------------------------------
+frontend-common:
+  # Condition 1: Any file in src/ that DOES NOT belong to a specific target
+  - changed-files:
+      - all-globs-to-any-file:
+          - "frontend/**"
+          - "!frontend/src/**/admin/**"
+          - "!frontend/src/**/changemaker/**"
+          - "!frontend/src/**/gov/**"
+          - "!frontend/src/**/impactmaker/**"
+          - "!frontend/src/**/landing/**"
+          - "!frontend/src/**/partner/**"
+          - "!frontend/src/**/verifier/**"
+          - "!frontend/src/routeTree.*.gen.ts"
+
+# ---------------------------------------------------------
+# Backend, CI, Docs, Database, Dependencies
+# ---------------------------------------------------------
+
+backend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - backend/**
+
+database:
+  - changed-files:
+      - any-glob-to-any-file:
+          - backend/app/alembic/**
+          - backend/app/models/**
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - docs/**
       - all-globs-to-all-files:
-        - '!./**/*.md'
-        - '!frontend/**'
-        - '!backend/**'
+          - "!backend/**"
+          - "!frontend/**"
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**
+          - docker-compose*.yml
+          - cloudbuild.yaml
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/package.json"
+          - "**/bun.lock"
+          - "**/pyproject.toml"
+          - "**/uv.lock"
+          - .github/dependabot.yml

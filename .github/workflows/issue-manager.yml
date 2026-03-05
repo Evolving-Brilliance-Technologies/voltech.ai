@@ -1,55 +1,50 @@
 name: Issue Manager
 
 on:
-  schedule:
-    - cron: "21 17 * * *"
-  issue_comment:
-    types:
-      - created
-  issues:
-    types:
-      - labeled
-  pull_request_target:
-    types:
-      - labeled
-  workflow_dispatch:
+    schedule:
+        - cron: "0 9 * * *" # Run daily at 9am UTC
+    issue_comment:
+        types:
+            - created
+    issues:
+        types:
+            - labeled
+    pull_request_target:
+        types:
+            - labeled
+    workflow_dispatch:
 
 permissions:
-  issues: write
-  pull-requests: write
+    issues: write
+    pull-requests: write
 
 jobs:
-  issue-manager:
-    if: github.repository_owner == 'fastapi'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - uses: tiangolo/issue-manager@0.6.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          config: >
-            {
-              "answered": {
-                "delay": 864000,
-                "message": "Assuming the original need was handled, this will be automatically closed now. But feel free to add more comments or create new issues or PRs."
-              },
-              "waiting": {
-                "delay": 2628000,
-                "message": "As this PR has been waiting for the original user for a while but seems to be inactive, it's now going to be closed. But if there's anyone interested, feel free to create a new PR.",
-                "reminder": {
-                  "before": "P3D",
-                  "message": "Heads-up: this will be closed in 3 days unless there's new activity."
-                }
-              },
-              "invalid": {
-                "delay": 0,
-                "message": "This was marked as invalid and will be closed now. If this is an error, please provide additional details."
-              },
-              "maybe-ai": {
-                "delay": 0,
-                "message": "This was marked as potentially AI generated and will be closed now. If this is an error, please provide additional details, make sure to read the docs about contributing and AI."
-              }
-            }
+    issue-manager:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: tiangolo/issue-manager@0.6.0
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  config: >
+                      {
+                        "answered": {
+                          "delay": 604800,
+                          "message": "This issue has been marked as answered. Closing automatically. Feel free to reopen if you have additional questions."
+                        },
+                        "waiting": {
+                          "delay": 1209600,
+                          "message": "This issue has been waiting for a response for 2 weeks. Closing due to inactivity. Feel free to reopen with additional information.",
+                          "reminder": {
+                            "before": "P3D",
+                            "message": "👋 Heads-up: this issue will be closed in 3 days unless there's new activity."
+                          }
+                        },
+                        "invalid": {
+                          "delay": 0,
+                          "message": "This issue was marked as invalid and has been closed."
+                        },
+                        "wontfix": {
+                          "delay": 0,
+                          "message": "This issue was marked as won't fix and has been closed."
+                        }
+                      }

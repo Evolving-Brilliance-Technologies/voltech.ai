@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [master, staging, dev]
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Check Formatting
+        run: bun run format:check
+
+      - name: Type Check
+        run: bun run tsc
+
+      # - name: Run Tests
+      #   run: bun run test
+
+  backend:
+    permissions:
+      contents: read
+      pull-requests: write # For creating/updating PR comments
+    name: Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DOMAIN: "example.com"
+      FRONTEND_HOST: "localhost:3000"
+      ENVIRONMENT: "local"
+      BACKEND_CORS_ORIGINS: "http://localhost,http://localhost:3000"
+      SECRET_KEY: "super-secret-secret-key"
+      FIRST_SUPERUSER: "admin@voltech.ai"
+      FIRST_SUPERUSER_PASSWORD: "password"
+      EMAILS_FROM_EMAIL: "info@example.com"
+      POSTGRES_SERVER: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: "app"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "test-password"
+      LOGGING_LEVEL: "INFO"
+      STRUCTURED_LOGGING: "False"
+      MINIO_URL: http://localhost:9000
+      MINIO_ACCESS_KEY: "minio"
+      MINIO_ACCESS_SECRET: "minio-super-secret"
+      MINIO_BUCKET_NAME: "voltech-files"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install Dependencies
+        run: uv sync
+
+      - name: Lint Backend
+        run: uv run bash scripts/lint.sh
+
+      - name: Cache Docker images
+        id: cache-docker-images
+        uses: actions/cache@v5
+        with:
+          path: /tmp/docker-images
+          key: ${{ runner.os }}-docker-images-${{ hashFiles('docker-compose.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-images-
+
+      - name: Load Docker images
+        if: steps.cache-docker-images.outputs.cache-hit == 'true'
+        run: |
+          if [ -d "/tmp/docker-images" ] && [ "$(ls -A /tmp/docker-images)" ]; then
+            for image in /tmp/docker-images/*.tar; do
+              docker load -i "$image"
+            done
+          fi
+
+      - name: Start DB
+        run: docker compose up -d db minio
+
+      - name: Save Docker images
+        if: steps.cache-docker-images.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p /tmp/docker-images
+          docker save postgis/postgis:18-3.6-alpine -o /tmp/docker-images/postgis.tar
+          docker save minio/minio -o /tmp/docker-images/minio.tar
+
+      - name: Test Backend
+        run: uv run bash scripts/test.sh
+
+      - name: Upload coverage HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: backend/htmlcov/
+          retention-days: 7
+
+      - name: Coverage comment
+        if: github.event_name == 'pull_request'
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: ./backend/coverage.xml
