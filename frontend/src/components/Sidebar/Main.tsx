@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar-legacy";
 
 export type Item = {
   icon: LucideIcon;
