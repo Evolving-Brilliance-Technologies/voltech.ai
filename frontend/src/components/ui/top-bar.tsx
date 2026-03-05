@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Dropdown } from './EBTDropdown';
-import { cn } from '../../lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuSeparator,
+} from './dropdown-menu';
+import { cn } from '@/lib/utils';
 
 // TopBar variants
 const topBarVariants = cva(
@@ -503,33 +508,35 @@ const UserMenu: React.FC<UserMenuProps> = ({
   showUserInfo = true,
 }) => {
   return (
-    <Dropdown
-      trigger={
-        <UserAvatar
-          name={name}
-          email={email}
-          initials={initials}
-          avatarUrl={avatarUrl}
-          avatarClassName={avatarClassName}
-          showChevron={true}
-        />
-      }
-      className={menuClassName}
-    >
-      {showUserInfo && (
-        <>
-          <div className="px-4 py-3">
-            <p className="text-sm font-medium text-profile-text">{name}</p>
-            {email && (
-              <p className="text-xs text-profile-text-secondary">{email}</p>
-            )}
-          </div>
-          <Dropdown.Separator />
-        </>
-      )}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div role="button" tabIndex={0} className="outline-none">
+          <UserAvatar
+            name={name}
+            email={email}
+            initials={initials}
+            avatarUrl={avatarUrl}
+            avatarClassName={avatarClassName}
+            showChevron={true}
+          />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className={menuClassName} align="end" sideOffset={8}>
+        {showUserInfo && (
+          <>
+            <div className="px-4 py-3">
+              <p className="text-sm font-medium text-profile-text">{name}</p>
+              {email && (
+                <p className="text-xs text-profile-text-secondary">{email}</p>
+              )}
+            </div>
+            <DropdownMenuSeparator />
+          </>
+        )}
 
-      {children}
-    </Dropdown>
+        {children}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

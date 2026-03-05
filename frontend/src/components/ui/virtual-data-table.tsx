@@ -1,8 +1,8 @@
 import { flexRender, type Table as TableType } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
-import { Table } from "./EBTTable";
-import { cn } from "../../lib/utils";
+import { Table } from "./table";
+import { cn } from "@/lib/utils";
 
 // Helper function to determine data type for styling
 function getDataType(value: unknown): string {

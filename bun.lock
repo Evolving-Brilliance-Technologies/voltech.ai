@@ -1,9 +1,11 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "fastapi-cloud",
+      "dependencies": {
+        "@tanstack/react-virtual": "^3.13.19",
+      },
     },
     "frontend": {
       "name": "frontend",
