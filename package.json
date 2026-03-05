@@ -40,5 +40,8 @@
     "generate-client": "bun run --filter frontend generate-client",
     "test": "bun run --filter frontend test",
     "test:ui": "bun run --filter frontend test:ui"
+  },
+  "dependencies": {
+    "@tanstack/react-virtual": "^3.13.19"
   }
 }

@@ -7,7 +7,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar-legacy";
 import useAuth from "@/hooks/useAuth";
 import { type Item, Main } from "./Main";
 import { User } from "./User";
