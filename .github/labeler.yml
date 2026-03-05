@@ -3,7 +3,7 @@
 
 # ---------------------------------------------------------
 # Frontend Specific Targets
-# Matches any file inside a target's directory (e.g., frontend/src/routes/admin/**, frontend/src/components/admin/**, ...) 
+# Matches any file inside a target's directory (e.g., frontend/src/routes/admin/**, frontend/src/components/admin/**, ...)
 # or its generated TanStack route tree file.
 # ---------------------------------------------------------
 

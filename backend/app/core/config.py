@@ -119,9 +119,7 @@ class Settings(BaseSettings):
         self._check_default_secret(
             "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
         )
-        self._check_default_secret(
-            "MINIO_ROOT_PASSWORD", self.MINIO_ROOT_PASSWORD
-        )
+        self._check_default_secret("MINIO_ROOT_PASSWORD", self.MINIO_ROOT_PASSWORD)
 
         return self
 
