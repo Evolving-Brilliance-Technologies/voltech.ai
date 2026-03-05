@@ -32,7 +32,7 @@
     "preview:partner": "bun run --filter frontend preview:partner",
     "preview:admin": "bun run --filter frontend preview:admin",
     "preview:all": "bun run --filter frontend preview:all",
-    
+
     "tsc": "bun run --filter frontend tsc",
     "format": "bun run --filter frontend format",
     "format:check": "bun run --filter frontend format:check",

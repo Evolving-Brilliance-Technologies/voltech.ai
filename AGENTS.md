@@ -35,7 +35,7 @@ Here are the 7 specific frontend portals:
 
 ### 3. Directory Breakdown (`/frontend`)
 *   **`src/routes/`**: contains subfolders for each target portal (e.g., `admin`, `landing`). This is where the specific pages for each portal live.
-*   **`src/components/`**: 
+*   **`src/components/`**:
     *   `ui/`: Atomic, reusable UI components (Buttons, Inputs, etc.).
     *   `Sidebar/`, `Admin/`, `UserSettings/`: Feature-specific shared components.
 *   **`src/client/`**: Contains the generated API SDK and types.
