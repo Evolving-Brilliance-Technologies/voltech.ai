@@ -39,7 +39,7 @@ export interface SidebarItem {
 }
 
 const sidebarVariants = cva(
-  "flex flex-col bg-sidebar-bg text-sidebar-text overflow-hidden h-full transition-[width] duration-300 ease-in-out relative",
+  "flex flex-col shrink-0 bg-sidebar-bg text-sidebar-text overflow-hidden h-full transition-[width] duration-300 ease-in-out relative",
   {
     variants: {
       width: {
@@ -202,7 +202,7 @@ const Sidebar = (({
         {/* Toggle Button Area */}
         <button
           onClick={toggleCollapse}
-          className="flex w-full items-center justify-center py-2 border-t border-sidebar-separator min-h-[40px] hover:bg-sidebar-item-hover text-sidebar-icon transition-colors outline-none focus-visible:bg-sidebar-item-hover"
+          className="flex w-full items-center justify-center py-2 border-t border-sidebar-separator min-h-10 hover:bg-sidebar-item-hover text-sidebar-icon transition-colors outline-none focus-visible:bg-sidebar-item-hover"
           title={isCollapsed ? "Expand" : "Collapse"}
           type="button"
         >

@@ -13,6 +13,7 @@
     "dev:partner": "bun run --filter frontend dev:partner",
     "dev:admin": "bun run --filter frontend dev:admin",
     "dev:all": "bun run --filter frontend dev:all",
+
     "build": "bun run --filter frontend build",
     "build:landing": "bun run --filter frontend build:landing",
     "build:impactmaker": "bun run --filter frontend build:impactmaker",
@@ -22,6 +23,7 @@
     "build:partner": "bun run --filter frontend build:partner",
     "build:admin": "bun run --filter frontend build:admin",
     "build:all": "bun run --filter frontend build:all",
+
     "preview:landing": "bun run --filter frontend preview:landing",
     "preview:impactmaker": "bun run --filter frontend preview:impactmaker",
     "preview:changemaker": "bun run --filter frontend preview:changemaker",
@@ -30,6 +32,7 @@
     "preview:partner": "bun run --filter frontend preview:partner",
     "preview:admin": "bun run --filter frontend preview:admin",
     "preview:all": "bun run --filter frontend preview:all",
+    
     "tsc": "bun run --filter frontend tsc",
     "format": "bun run --filter frontend format",
     "format:check": "bun run --filter frontend format:check",

@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 
 // TopBar variants
 const topBarVariants = cva(
-  'flex items-center justify-between bg-topbar-bg border border-topbar-border text-topbar-text',
+  'flex items-center justify-between bg-topbar-bg border-b border-topbar-border text-topbar-text',
   {
     variants: {
       size: {
@@ -151,6 +151,7 @@ interface LogoProps extends VariantProps<typeof logoVariants> {
   href?: string;
   onClick?: () => void;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const Logo: React.FC<LogoProps> = ({
@@ -160,17 +161,19 @@ const Logo: React.FC<LogoProps> = ({
   onClick,
   size,
   className = '',
+  children,
 }) => {
   const content = (
     <>
       {logo}
       {text && <span className={logoTextVariants({ size })}>{text}</span>}
+      {children}
     </>
   );
 
   const baseClasses = logoVariants({
     size,
-    className: cn(className, 'transition-all duration-300 hover:scale-105 text-topbar-logo'),
+    className: cn(className, 'transition-all duration-300 text-topbar-logo'),
   });
 
   if (href || onClick) {
@@ -291,7 +294,7 @@ const Nav: React.FC<NavProps> = ({
             state: isActive(item.href) ? 'active' : 'inactive',
           })}
         >
-          {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+          {item.icon && <span className="shrink-0">{item.icon}</span>}
           <span>{item.name}</span>
         </button>
       ))}
@@ -346,7 +349,7 @@ const BottomNav: React.FC<BottomNavProps> = ({
             })}
           >
             {active && (
-              <div className="absolute inset-1 rounded-xl bg-gradient-to-br from-blue-200/30 to-teal-200/30 border border-blue-300/40 backdrop-blur-md" />
+              <div className="absolute inset-1 rounded-xl bg-linear-to-br from-blue-200/30 to-teal-200/30 border border-blue-300/40 backdrop-blur-md" />
             )}
             {item.icon && (
               <span

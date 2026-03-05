@@ -155,12 +155,12 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* ── EBT Sidebar ── */
-  --sidebar-bg: #ffffff;
-  --sidebar-text: #1f2937;
-  --sidebar-icon: #6b7280;
-  --sidebar-item-active: #f0fdf4;
-  --sidebar-item-hover: #f3f4f6;
-  --sidebar-separator: #e5e7eb;
+  --sidebar-bg: #111827;
+  --sidebar-text: #f3f4f6;
+  --sidebar-icon: #9ca3af;
+  --sidebar-item-active: rgba(16, 185, 129, 0.1);
+  --sidebar-item-hover: #1f2937;
+  --sidebar-separator: #374151;
 
   /* ── EBT Button ── */
   --button-focus-ring: oklch(0.5982 0.10687 182.4689);
