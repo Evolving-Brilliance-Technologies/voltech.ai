@@ -1,6 +1,10 @@
 # voltech.ai AI Agent Instructions
 This file contains project-specific information and structural guidelines designed to help AI assistants understand the project context, layout, and conventions.
 
+> [!IMPORTANT]
+> **CRITICAL: Design and Aesthetics**
+> Before you make ANY visual changes, build screens, or create styling for components, you **MUST** read the design specifications located in `docs/design.md`. Strict adherence to the color palette, typography (Playfair Display/Inter), and stylistic principles (Glassmorphism, Mobile-first) is mandatory across all portals.
+
 ## Project Structure Overview: `voltech.ai` Frontend
 
 The frontend is a modern, high-performance **React 19** application built with **Vite** and **TypeScript**, configured as a multi-target monorepo workspace.
