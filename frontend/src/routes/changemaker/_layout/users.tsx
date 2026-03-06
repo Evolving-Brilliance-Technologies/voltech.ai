@@ -98,7 +98,9 @@ function UsersComponent() {
           <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center font-bold text-xs text-gray-600 dark:text-gray-400">
             {row.original.name.charAt(0)}
           </div>
-          <span className="font-medium text-gray-900 dark:text-gray-100">{row.original.name}</span>
+          <span className="font-medium text-gray-900 dark:text-gray-100">
+            {row.original.name}
+          </span>
         </div>
       ),
     },
@@ -204,7 +206,11 @@ function UsersComponent() {
               className="pl-10 h-10 bg-white dark:bg-slate-900 border-gray-100 dark:border-white/10 dark:text-white"
             />
           </div>
-          <Button variant="outline" size="icon" className="dark:border-white/10 dark:text-gray-400">
+          <Button
+            variant="outline"
+            size="icon"
+            className="dark:border-white/10 dark:text-gray-400"
+          >
             <Filter size={20} />
           </Button>
           <Button className="bg-voltech-green hover:bg-voltech-green/90 gap-2 text-white border-none">

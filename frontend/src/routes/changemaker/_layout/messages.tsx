@@ -119,7 +119,8 @@ function MessagesComponent() {
                 onClick={() => setSelectedChat(chat.id)}
                 className={cn(
                   "w-full p-4 flex gap-3 hover:bg-white dark:hover:bg-slate-800/50 transition-colors text-left border-b border-gray-50 dark:border-white/5",
-                  selectedChat === chat.id && "bg-white dark:bg-slate-800/80 shadow-sm z-10"
+                  selectedChat === chat.id &&
+                    "bg-white dark:bg-slate-800/80 shadow-sm z-10"
                 )}
               >
                 <div className="relative shrink-0">
@@ -173,7 +174,12 @@ function MessagesComponent() {
                     </span>
                   </div>
                 </div>
-                <Button variant="outline" size="icon" type="button" className="dark:border-white/10 dark:text-gray-400">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  type="button"
+                  className="dark:border-white/10 dark:text-gray-400"
+                >
                   <User size={18} />
                 </Button>
               </div>
