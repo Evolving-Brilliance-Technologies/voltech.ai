@@ -10,11 +10,11 @@
 
 import { Route as rootRouteImport } from "./routes/changemaker/__root";
 import { Route as LayoutRouteImport } from "./routes/changemaker/_layout";
-import { Route as LayoutEventsRouteImport } from "./routes/changemaker/_layout/events";
 import { Route as LayoutIndexRouteImport } from "./routes/changemaker/_layout/index";
-import { Route as LayoutJobsRouteImport } from "./routes/changemaker/_layout/jobs";
-import { Route as LayoutMessagesRouteImport } from "./routes/changemaker/_layout/messages";
 import { Route as LayoutUsersRouteImport } from "./routes/changemaker/_layout/users";
+import { Route as LayoutMessagesRouteImport } from "./routes/changemaker/_layout/messages";
+import { Route as LayoutJobsRouteImport } from "./routes/changemaker/_layout/jobs";
+import { Route as LayoutEventsRouteImport } from "./routes/changemaker/_layout/events";
 
 const LayoutRoute = LayoutRouteImport.update({
   id: "/_layout",
