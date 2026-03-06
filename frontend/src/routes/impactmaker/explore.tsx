@@ -52,11 +52,19 @@ function Explore() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex flex-col"
+      className="flex flex-col h-full"
     >
       <Header title="Explore Events" />
 
-      <div className="sticky top-[60px] z-30 bg-[#FAFAFA]/90 backdrop-blur-md px-4 py-3 border-b border-gray-100">
+      <div className="sticky top-0 md:top-8 z-30 bg-[#FAFAFA]/90 dark:bg-slate-900/90 backdrop-blur-md px-4 md:px-0 py-3 md:pb-6 border-b border-gray-100 dark:border-white/5 md:border-none">
+        <div className="hidden md:block mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
+            Explore Events
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Discover and join ways to make an impact.
+          </p>
+        </div>
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Search
@@ -96,12 +104,13 @@ function Explore() {
         </div>
       </div>
 
-      <main className="flex-1 px-4 py-6 space-y-6">
+      <main className="flex-1 px-4 md:px-0 py-6 space-y-6 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6">
         {events.map(event => (
           <motion.div
             key={event.id}
+            whileHover={{ y: -4 }}
             whileTap={{ scale: 0.98 }}
-            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer group"
+            className="bg-white dark:bg-slate-900/50 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-white/5 cursor-pointer group flex flex-col"
           >
             <div className="relative h-40">
               <img
@@ -123,8 +132,8 @@ function Explore() {
               </div>
             </div>
 
-            <div className="p-5">
-              <h3 className="font-display text-lg font-semibold text-gray-900 mb-1 leading-tight">
+            <div className="p-5 flex-1 flex flex-col">
+              <h3 className="font-display text-lg font-semibold text-gray-900 dark:text-white mb-1 leading-tight line-clamp-2">
                 {event.title}
               </h3>
               <p className="text-voltech-green text-xs font-medium mb-4">
@@ -145,14 +154,15 @@ function Explore() {
                   {event.spots}
                 </div>
               </div>
-
-              <button
-                type="button"
-                className="w-full bg-voltech-mint text-voltech-green font-semibold py-3 rounded-xl text-sm flex items-center justify-center group-hover:bg-voltech-green group-hover:text-white transition-colors"
-              >
-                View Details
-                <ChevronRight size={16} className="ml-1" />
-              </button>
+              <div className="mt-auto pt-4">
+                <button
+                  type="button"
+                  className="w-full bg-voltech-mint text-voltech-green dark:bg-emerald-900/20 dark:text-emerald-400 font-semibold py-3 rounded-xl text-sm flex items-center justify-center group-hover:bg-voltech-green group-hover:text-white transition-colors"
+                >
+                  View Details
+                  <ChevronRight size={16} className="ml-1" />
+                </button>
+              </div>
             </div>
           </motion.div>
         ))}

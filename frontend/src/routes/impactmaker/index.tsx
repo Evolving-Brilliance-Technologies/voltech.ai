@@ -12,11 +12,19 @@ function Dashboard() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex flex-col"
+      className="flex flex-col h-full"
     >
       <Header title="Good Morning, Alex" />
 
-      <main className="flex-1 px-4 py-6 space-y-8">
+      <main className="flex-1 px-4 md:px-0 py-6 md:py-8 space-y-8">
+        <div className="hidden md:block mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
+            Good Morning, Alex
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Here's what's happening with your impact today.
+          </p>
+        </div>
         {/* Impact Summary */}
         <section>
           <div className="bg-earth-gradient text-white rounded-3xl p-6 shadow-lg shadow-emerald-900/20 relative overflow-hidden">

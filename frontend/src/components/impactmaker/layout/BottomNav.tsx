@@ -15,7 +15,7 @@ export function BottomNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 glass pb-[env(safe-area-inset-bottom)]">
-      <nav className="flex items-center justify-around px-2 h-16 max-w-md mx-auto relative">
+      <nav className="flex items-center justify-around px-2 h-16 max-w-md mx-auto relative transition-all duration-300">
         {navItems.map(item => {
           const Icon = item.icon;
           const isActive = matchRoute({ to: item.path as any });

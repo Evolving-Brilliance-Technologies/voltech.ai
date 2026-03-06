@@ -13,13 +13,22 @@ function DigitalID() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex flex-col"
+      className="flex flex-col h-full"
     >
       <Header title="Digital ID" />
 
-      <main className="flex-1 px-4 py-6 space-y-6">
+      <main className="flex-1 px-4 md:px-0 py-6 md:py-8 space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-8 xl:grid-cols-3">
+        <div className="hidden md:block col-span-full mb-2">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
+            Digital Volunteer ID
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Your verified identity and impact credentials.
+          </p>
+        </div>
+
         {/* ID Card */}
-        <div className="bg-voltech-dark text-white rounded-4xl p-6 shadow-xl relative overflow-hidden">
+        <div className="bg-voltech-dark text-white rounded-4xl p-6 shadow-xl relative overflow-hidden xl:col-span-1 h-fit">
           <div className="absolute top-0 right-0 w-64 h-64 bg-voltech-green/20 rounded-full blur-3xl -mr-20 -mt-20" />
 
           <div className="relative z-10 flex justify-between items-start mb-8">
@@ -70,9 +79,9 @@ function DigitalID() {
         </div>
 
         {/* Certificates */}
-        <section>
+        <section className="xl:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display text-xl font-semibold text-gray-900">
+            <h3 className="font-display text-xl font-semibold text-gray-900 dark:text-white">
               Certificates
             </h3>
             <button
@@ -106,13 +115,13 @@ function DigitalID() {
             ].map((cert, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 active:scale-[0.98] transition-transform cursor-pointer"
+                className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-white/5 flex items-center gap-4 active:scale-[0.98] transition-transform cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/50"
               >
                 <div
                   className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                     cert.verified
-                      ? "bg-emerald-50 text-emerald-600"
-                      : "bg-gray-50 text-gray-500"
+                      ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400"
+                      : "bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400"
                   }`}
                 >
                   {cert.verified ? (
@@ -122,15 +131,15 @@ function DigitalID() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-900 text-sm truncate">
+                  <h4 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
                     {cert.title}
                   </h4>
                   <div className="flex items-center gap-2 mt-1">
                     <span
                       className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
                         cert.verified
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-gray-100 text-gray-600"
+                          ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400"
+                          : "bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400"
                       }`}
                     >
                       {cert.type}

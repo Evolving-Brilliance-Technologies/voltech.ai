@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
-  Bell,
   ChevronRight,
   Coins,
   LogOut,
@@ -22,13 +21,22 @@ function Profile() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex flex-col"
+      className="flex flex-col h-full"
     >
       <Header title="Profile" />
 
-      <main className="flex-1 px-4 py-6 space-y-6">
+      <main className="flex-1 px-4 md:px-0 py-6 md:py-8 space-y-6 md:space-y-8 max-w-4xl w-full">
+        <div className="hidden md:block mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
+            Your Profile
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Manage your account details and preferences.
+          </p>
+        </div>
+
         {/* Profile Header */}
-        <div className="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex items-center gap-4">
+        <div className="bg-white dark:bg-slate-900/50 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-white/5 flex items-center gap-4">
           <div className="w-16 h-16 bg-gray-100 rounded-full overflow-hidden">
             <img
               src="https://picsum.photos/seed/alex/100/100"
@@ -45,7 +53,7 @@ function Profile() {
           </div>
           <button
             type="button"
-            className="w-10 h-10 bg-gray-50 text-gray-600 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+            className="w-10 h-10 bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
           >
             <Settings size={20} />
           </button>
@@ -66,37 +74,29 @@ function Profile() {
         </div>
 
         {/* Menu Items */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900/50 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
           <MenuItem
             icon={Target}
             title="My Goals"
             subtitle="Track your ESG/SDG targets"
-            color="text-blue-500"
-            bg="bg-blue-50"
+            color="text-blue-500 dark:text-blue-400"
+            bg="bg-blue-50 dark:bg-blue-900/20"
           />
-          <div className="h-[1px] bg-gray-50 mx-4" />
+          <div className="h-px bg-gray-50 dark:bg-white/5 mx-4" />
           <MenuItem
             icon={UserCircle}
             title="Personal Info"
             subtitle="Update your details"
-            color="text-purple-500"
-            bg="bg-purple-50"
+            color="text-purple-500 dark:text-purple-400"
+            bg="bg-purple-50 dark:bg-purple-900/20"
           />
-          <div className="h-[1px] bg-gray-50 mx-4" />
+          <div className="h-px bg-gray-50 dark:bg-white/5 mx-4" />
           <MenuItem
             icon={Shield}
             title="Privacy & Security"
             subtitle="Job privacy settings"
-            color="text-emerald-500"
-            bg="bg-emerald-50"
-          />
-          <div className="h-[1px] bg-gray-50 mx-4" />
-          <MenuItem
-            icon={Bell}
-            title="Notifications"
-            subtitle="Manage alerts"
-            color="text-amber-500"
-            bg="bg-amber-50"
+            color="text-emerald-500 dark:text-emerald-400"
+            bg="bg-emerald-50 dark:bg-emerald-900/20"
           />
         </div>
 
@@ -126,15 +126,17 @@ function MenuItem({
   bg: string;
 }) {
   return (
-    <div className="flex items-center gap-4 p-4 active:bg-gray-50 transition-colors cursor-pointer">
+    <div className="flex items-center gap-4 p-4 active:bg-gray-50 dark:active:bg-slate-800 transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/50">
       <div
         className={`w-10 h-10 ${bg} ${color} rounded-xl flex items-center justify-center shrink-0`}
       >
         <Icon size={20} />
       </div>
       <div className="flex-1">
-        <h4 className="font-semibold text-gray-900 text-sm">{title}</h4>
-        <p className="text-xs text-gray-500">{subtitle}</p>
+        <h4 className="font-semibold text-gray-900 dark:text-white text-sm">
+          {title}
+        </h4>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{subtitle}</p>
       </div>
       <ChevronRight size={18} className="text-gray-400" />
     </div>
