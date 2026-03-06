@@ -9,6 +9,6 @@ else
     RUNNER=""
 fi
 
-$RUNNER ty check app
+$RUNNER mypy app
 $RUNNER ruff check app
 $RUNNER ruff format app --check

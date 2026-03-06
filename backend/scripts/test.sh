@@ -13,4 +13,4 @@ fi
 # pytest-cov is used instead of `coverage run` because it's compatible
 # with pytest-xdist parallel execution. The -n auto flag from
 # pyproject.toml will automatically use all CPU cores.
-$RUNNER pytest tests/ --cov=app --cov-report=term-missing --cov-report=html
+$RUNNER pytest tests/ --cov=app --cov-report=term-missing --cov-report=html --cov-report=xml

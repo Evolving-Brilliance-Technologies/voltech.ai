@@ -13,6 +13,7 @@ Every log entry is automatically enriched with:
 import logging
 import logging.config
 import sys
+from collections.abc import MutableMapping
 from contextvars import ContextVar
 from typing import Any, cast
 from uuid import uuid4
@@ -28,8 +29,8 @@ user_id: ContextVar[str | None] = ContextVar("user_id", default=None)
 
 
 def add_request_context(
-    _logger: Any, _method_name: str, event_dict: dict[str, Any]
-) -> dict[str, Any]:
+    _logger: Any, _method_name: str, event_dict: MutableMapping[str, Any]
+) -> MutableMapping[str, Any]:
     """Inject per-request context into every log entry."""
     if req_id := request_id.get():
         event_dict["request_id"] = req_id
@@ -39,8 +40,8 @@ def add_request_context(
 
 
 def add_service_info(
-    _logger: Any, _method_name: str, event_dict: dict[str, Any]
-) -> dict[str, Any]:
+    _logger: Any, _method_name: str, event_dict: MutableMapping[str, Any]
+) -> MutableMapping[str, Any]:
     """Inject service metadata into every log entry."""
     event_dict["environment"] = settings.ENVIRONMENT
     return event_dict

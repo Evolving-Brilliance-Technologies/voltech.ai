@@ -131,8 +131,8 @@ export function DataTable<TData>({
         className
       )}
     >
-      <div 
-        ref={scrollContainerRef} 
+      <div
+        ref={scrollContainerRef}
         className="h-full overflow-auto"
         style={virtualized ? { willChange: "scroll-position" } : {}}
       >

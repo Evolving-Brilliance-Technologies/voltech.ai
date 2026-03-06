@@ -71,6 +71,10 @@ class Settings(BaseSettings):
             path=self.POSTGRES_DB,
         )
 
+    MINIO_ROOT_USER: str
+    MINIO_ROOT_PASSWORD: str
+    MINIO_BUCKET_NAME: str
+
     SMTP_TLS: bool = True
     SMTP_SSL: bool = False
     SMTP_PORT: int = 587
@@ -98,9 +102,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
-        if value == "changethis":
+        if value == "changethis" or value == "changeme":
             message = (
-                f'The value of {var_name} is "changethis", '
+                f'The value of {var_name} is "{value}", '
                 "for security, please change it, at least for deployments."
             )
             if self.ENVIRONMENT == "local":
@@ -115,6 +119,7 @@ class Settings(BaseSettings):
         self._check_default_secret(
             "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
         )
+        self._check_default_secret("MINIO_ROOT_PASSWORD", self.MINIO_ROOT_PASSWORD)
 
         return self
 
