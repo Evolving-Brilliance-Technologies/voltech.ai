@@ -69,7 +69,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value
       setLocalValue(val)
-      
+
       // If no debounce, trigger immediately
       if (debounce === undefined && onChange) {
         onChange(e)
