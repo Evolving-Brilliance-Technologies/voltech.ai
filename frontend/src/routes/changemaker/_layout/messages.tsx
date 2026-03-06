@@ -60,9 +60,27 @@ const mockConversations: Conversation[] = [
 
 const mockMessages: Record<string, Message[]> = {
   "1": [
-    { id: "101", senderId: "1", text: "Hi there!", time: "2:30 PM", isMe: false },
-    { id: "102", senderId: "me", text: "Hello Alex! How can I help you?", time: "2:31 PM", isMe: true },
-    { id: "103", senderId: "1", text: "Hey, can we discuss the upcoming event?", time: "2:32 PM", isMe: false },
+    {
+      id: "101",
+      senderId: "1",
+      text: "Hi there!",
+      time: "2:30 PM",
+      isMe: false,
+    },
+    {
+      id: "102",
+      senderId: "me",
+      text: "Hello Alex! How can I help you?",
+      time: "2:31 PM",
+      isMe: true,
+    },
+    {
+      id: "103",
+      senderId: "1",
+      text: "Hey, can we discuss the upcoming event?",
+      time: "2:32 PM",
+      isMe: false,
+    },
   ],
 };
 
@@ -83,8 +101,14 @@ function MessagesComponent() {
               Messages
             </h2>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <Input placeholder="Search chats..." className="pl-10 h-10 bg-gray-50 border-none" />
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={16}
+              />
+              <Input
+                placeholder="Search chats..."
+                className="pl-10 h-10 bg-gray-50 border-none"
+              />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto">
@@ -108,10 +132,16 @@ function MessagesComponent() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start mb-1">
-                    <span className="font-bold text-gray-900 truncate">{chat.user.name}</span>
-                    <span className="text-[10px] text-gray-400 uppercase font-medium">{chat.time}</span>
+                    <span className="font-bold text-gray-900 truncate">
+                      {chat.user.name}
+                    </span>
+                    <span className="text-[10px] text-gray-400 uppercase font-medium">
+                      {chat.time}
+                    </span>
                   </div>
-                  <p className="text-sm text-gray-500 truncate">{chat.lastMessage}</p>
+                  <p className="text-sm text-gray-500 truncate">
+                    {chat.lastMessage}
+                  </p>
                 </div>
                 {chat.unreadCount && (
                   <div className="h-5 min-w-5 px-1 rounded-full bg-voltech-green text-white text-[10px] font-bold flex items-center justify-center">
@@ -134,7 +164,9 @@ function MessagesComponent() {
                     {currentChat.user.initials}
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 leading-tight">{currentChat.user.name}</h3>
+                    <h3 className="font-bold text-gray-900 leading-tight">
+                      {currentChat.user.name}
+                    </h3>
                     <span className="text-xs text-emerald-500 flex items-center gap-1">
                       <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       Active Now
@@ -166,24 +198,26 @@ function MessagesComponent() {
                     >
                       {msg.text}
                     </div>
-                    <span className="text-[10px] text-gray-400 mt-1 px-1 font-medium">{msg.time}</span>
+                    <span className="text-[10px] text-gray-400 mt-1 px-1 font-medium">
+                      {msg.time}
+                    </span>
                   </div>
                 ))}
               </div>
 
               {/* Chat Input */}
               <div className="p-4 border-t border-gray-100">
-                <form
-                  onSubmit={e => e.preventDefault()}
-                  className="flex gap-3"
-                >
+                <form onSubmit={e => e.preventDefault()} className="flex gap-3">
                   <Input
                     placeholder="Type a message..."
                     value={inputText}
                     onChange={e => setInputText(e.target.value)}
                     className="flex-1 h-12 bg-gray-50 border-none focus-visible:ring-voltech-green"
                   />
-                  <Button className="h-12 w-12 bg-voltech-green hover:bg-voltech-green/90 shrink-0" size="icon">
+                  <Button
+                    className="h-12 w-12 bg-voltech-green hover:bg-voltech-green/90 shrink-0"
+                    size="icon"
+                  >
                     <Send size={18} />
                   </Button>
                 </form>

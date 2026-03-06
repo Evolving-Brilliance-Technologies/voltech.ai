@@ -191,7 +191,6 @@ function LayoutComponent() {
 
   return (
     <div className="flex h-screen bg-[#F9FAFB] dark:bg-[#0B1120] overflow-hidden flex-col ">
-     
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
