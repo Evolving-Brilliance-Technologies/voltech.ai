@@ -61,14 +61,25 @@ class Settings(BaseSettings):
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
-        return PostgresDsn.build(
-            scheme="postgresql+psycopg",
-            username=self.POSTGRES_USER,
-            password=self.POSTGRES_PASSWORD,
-            host=self.POSTGRES_SERVER,
-            port=self.POSTGRES_PORT,
-            path=self.POSTGRES_DB,
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        # If POSTGRES_SERVER is a path (starts with /), it's a Unix socket (Cloud Run)
+        if self.POSTGRES_SERVER.startswith("/"):
+            # psycopg3 format for Unix sockets:
+            # postgresql+psycopg://user:pass@/dbname?host=/path/to/socket
+            return (
+                f"postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+                f"/{self.POSTGRES_DB}?host={self.POSTGRES_SERVER}"
+            )
+
+        return str(
+            PostgresDsn.build(
+                scheme="postgresql+psycopg",
+                username=self.POSTGRES_USER,
+                password=self.POSTGRES_PASSWORD,
+                host=self.POSTGRES_SERVER,
+                port=self.POSTGRES_PORT,
+                path=self.POSTGRES_DB,
+            )
         )
 
     # Storage — MinIO for local/VM, GCS (via ADC) for Cloud Run
