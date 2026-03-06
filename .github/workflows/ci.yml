@@ -57,7 +57,7 @@ jobs:
       FIRST_SUPERUSER: "admin@voltech.ai"
       FIRST_SUPERUSER_PASSWORD: "password"
       EMAILS_FROM_EMAIL: "info@example.com"
-      POSTGRES_SERVER: db
+      POSTGRES_SERVER: localhost
       POSTGRES_PORT: "5432"
       POSTGRES_DB: "app"
       POSTGRES_USER: "postgres"
