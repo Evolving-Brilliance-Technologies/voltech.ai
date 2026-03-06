@@ -68,6 +68,9 @@ jobs:
       MINIO_ROOT_USER: "minio"
       MINIO_ROOT_PASSWORD: "minio-super-secret"
       MINIO_BUCKET_NAME: "voltech-files"
+      STACK_NAME: "voltech"
+      DOCKER_IMAGE_BACKEND: "backend"
+      PROJECT_NAME: "Voltech"
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
