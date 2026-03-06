@@ -9,50 +9,153 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./routes/changemaker/__root";
-import { Route as IndexRouteImport } from "./routes/changemaker/index";
+import { Route as LayoutRouteImport } from "./routes/changemaker/_layout";
+import { Route as LayoutIndexRouteImport } from "./routes/changemaker/_layout/index";
+import { Route as LayoutUsersRouteImport } from "./routes/changemaker/_layout/users";
+import { Route as LayoutMessagesRouteImport } from "./routes/changemaker/_layout/messages";
+import { Route as LayoutJobsRouteImport } from "./routes/changemaker/_layout/jobs";
+import { Route as LayoutEventsRouteImport } from "./routes/changemaker/_layout/events";
 
-const IndexRoute = IndexRouteImport.update({
+const LayoutRoute = LayoutRouteImport.update({
+  id: "/_layout",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
   id: "/",
   path: "/",
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LayoutRoute,
+} as any);
+const LayoutUsersRoute = LayoutUsersRouteImport.update({
+  id: "/users",
+  path: "/users",
+  getParentRoute: () => LayoutRoute,
+} as any);
+const LayoutMessagesRoute = LayoutMessagesRouteImport.update({
+  id: "/messages",
+  path: "/messages",
+  getParentRoute: () => LayoutRoute,
+} as any);
+const LayoutJobsRoute = LayoutJobsRouteImport.update({
+  id: "/jobs",
+  path: "/jobs",
+  getParentRoute: () => LayoutRoute,
+} as any);
+const LayoutEventsRoute = LayoutEventsRouteImport.update({
+  id: "/events",
+  path: "/events",
+  getParentRoute: () => LayoutRoute,
 } as any);
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
+  "/": typeof LayoutIndexRoute;
+  "/events": typeof LayoutEventsRoute;
+  "/jobs": typeof LayoutJobsRoute;
+  "/messages": typeof LayoutMessagesRoute;
+  "/users": typeof LayoutUsersRoute;
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
+  "/events": typeof LayoutEventsRoute;
+  "/jobs": typeof LayoutJobsRoute;
+  "/messages": typeof LayoutMessagesRoute;
+  "/users": typeof LayoutUsersRoute;
+  "/": typeof LayoutIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
+  "/_layout": typeof LayoutRouteWithChildren;
+  "/_layout/events": typeof LayoutEventsRoute;
+  "/_layout/jobs": typeof LayoutJobsRoute;
+  "/_layout/messages": typeof LayoutMessagesRoute;
+  "/_layout/users": typeof LayoutUsersRoute;
+  "/_layout/": typeof LayoutIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/";
+  fullPaths: "/" | "/events" | "/jobs" | "/messages" | "/users";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/";
-  id: "__root__" | "/";
+  to: "/events" | "/jobs" | "/messages" | "/users" | "/";
+  id:
+    | "__root__"
+    | "/_layout"
+    | "/_layout/events"
+    | "/_layout/jobs"
+    | "/_layout/messages"
+    | "/_layout/users"
+    | "/_layout/";
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
+  LayoutRoute: typeof LayoutRouteWithChildren;
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
+    "/_layout": {
+      id: "/_layout";
+      path: "";
+      fullPath: "/";
+      preLoaderRoute: typeof LayoutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_layout/": {
+      id: "/_layout/";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
+      preLoaderRoute: typeof LayoutIndexRouteImport;
+      parentRoute: typeof LayoutRoute;
+    };
+    "/_layout/users": {
+      id: "/_layout/users";
+      path: "/users";
+      fullPath: "/users";
+      preLoaderRoute: typeof LayoutUsersRouteImport;
+      parentRoute: typeof LayoutRoute;
+    };
+    "/_layout/messages": {
+      id: "/_layout/messages";
+      path: "/messages";
+      fullPath: "/messages";
+      preLoaderRoute: typeof LayoutMessagesRouteImport;
+      parentRoute: typeof LayoutRoute;
+    };
+    "/_layout/jobs": {
+      id: "/_layout/jobs";
+      path: "/jobs";
+      fullPath: "/jobs";
+      preLoaderRoute: typeof LayoutJobsRouteImport;
+      parentRoute: typeof LayoutRoute;
+    };
+    "/_layout/events": {
+      id: "/_layout/events";
+      path: "/events";
+      fullPath: "/events";
+      preLoaderRoute: typeof LayoutEventsRouteImport;
+      parentRoute: typeof LayoutRoute;
     };
   }
 }
 
+interface LayoutRouteChildren {
+  LayoutEventsRoute: typeof LayoutEventsRoute;
+  LayoutJobsRoute: typeof LayoutJobsRoute;
+  LayoutMessagesRoute: typeof LayoutMessagesRoute;
+  LayoutUsersRoute: typeof LayoutUsersRoute;
+  LayoutIndexRoute: typeof LayoutIndexRoute;
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutEventsRoute: LayoutEventsRoute,
+  LayoutJobsRoute: LayoutJobsRoute,
+  LayoutMessagesRoute: LayoutMessagesRoute,
+  LayoutUsersRoute: LayoutUsersRoute,
+  LayoutIndexRoute: LayoutIndexRoute,
+};
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren);
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  LayoutRoute: LayoutRouteWithChildren,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

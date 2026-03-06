@@ -111,6 +111,13 @@
   --color-profile-hover: var(--profile-hover);
   --color-profile-text: var(--profile-text);
   --color-profile-text-secondary: var(--profile-text-secondary);
+
+  /* ── Voltech ImpactMaker Specific ─────────────────── */
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --color-voltech-green: #00A676;
+  --color-voltech-mint: #E6F6F1;
+  --color-voltech-dark: #1A1A1A;
+  --color-voltech-gray: #F5F5F5;
 }
 
 :root {
@@ -148,12 +155,12 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* ── EBT Sidebar ── */
-  --sidebar-bg: #ffffff;
-  --sidebar-text: #1f2937;
-  --sidebar-icon: #6b7280;
-  --sidebar-item-active: #f0fdf4;
-  --sidebar-item-hover: #f3f4f6;
-  --sidebar-separator: #e5e7eb;
+  --sidebar-bg: #111827;
+  --sidebar-text: #f3f4f6;
+  --sidebar-icon: #9ca3af;
+  --sidebar-item-active: rgba(16, 185, 129, 0.1);
+  --sidebar-item-hover: #1f2937;
+  --sidebar-separator: #374151;
 
   /* ── EBT Button ── */
   --button-focus-ring: oklch(0.5982 0.10687 182.4689);
@@ -346,5 +353,24 @@
   button,
   [role="button"] {
     cursor: pointer;
+  }
+}
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-dark {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .bg-earth-gradient {
+    background: linear-gradient(135deg, #00A676 0%, #007A5E 100%);
   }
 }
