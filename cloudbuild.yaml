@@ -49,7 +49,7 @@ steps:
           echo "BACKEND_SA=backend-sa-dev@${_PROJECT_ID}.iam.gserviceaccount.com" >> /workspace/env.txt
           echo "VITE_API_URL=https://api.dev.voltech.demoebt.com"                  >> /workspace/env.txt
           echo "DOMAIN_BASE=dev.voltech.demoebt.com"                              >> /workspace/env.txt
-          echo "ENVIRONMENT=development"                                           >> /workspace/env.txt
+          echo "ENVIRONMENT=local"                                                 >> /workspace/env.txt
         fi
 
         echo "=== Resolved env vars ==="
