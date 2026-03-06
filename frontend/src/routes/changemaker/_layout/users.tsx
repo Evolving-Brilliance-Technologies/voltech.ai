@@ -95,10 +95,10 @@ function UsersComponent() {
       header: "Name",
       cell: ({ row }: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold text-xs text-gray-600">
+          <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center font-bold text-xs text-gray-600 dark:text-gray-400">
             {row.original.name.charAt(0)}
           </div>
-          <span className="font-medium text-gray-900">{row.original.name}</span>
+          <span className="font-medium text-gray-900 dark:text-gray-100">{row.original.name}</span>
         </div>
       ),
     },
@@ -106,7 +106,7 @@ function UsersComponent() {
       accessorKey: "email",
       header: "Email",
       cell: ({ row }: any) => (
-        <div className="flex items-center gap-2 text-gray-600">
+        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
           <Mail size={14} />
           {row.original.email}
         </div>
@@ -116,7 +116,7 @@ function UsersComponent() {
       accessorKey: "role",
       header: "Role",
       cell: ({ row }: any) => (
-        <div className="flex items-center gap-2 font-medium">
+        <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-gray-200">
           <Shield size={14} className="text-voltech-green" />
           {row.original.role}
         </div>
@@ -138,8 +138,8 @@ function UsersComponent() {
             }
             className={
               status === "Active"
-                ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border-none"
-                : ""
+                ? "bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 border-none"
+                : "dark:bg-slate-800 dark:text-gray-400 dark:border-white/5"
             }
           >
             {status}
@@ -181,40 +181,40 @@ function UsersComponent() {
   });
 
   return (
-    <div className="space-y-6 flex flex-col h-full">
+    <div className="space-y-6 flex flex-col h-full transition-colors duration-300">
       <div className="flex justify-between items-end">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 font-display">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white font-display">
             Talents & Volunteers
           </h2>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 dark:text-gray-400 text-sm">
             Manage users, roles and invitations for your organization.
           </p>
         </div>
         <div className="flex gap-3">
           <div className="relative w-64">
             <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
               size={16}
             />
             <Input
               placeholder="Search users..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="pl-10 h-10"
+              className="pl-10 h-10 bg-white dark:bg-slate-900 border-gray-100 dark:border-white/10 dark:text-white"
             />
           </div>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" className="dark:border-white/10 dark:text-gray-400">
             <Filter size={20} />
           </Button>
-          <Button className="bg-voltech-green hover:bg-voltech-green/90 gap-2">
+          <Button className="bg-voltech-green hover:bg-voltech-green/90 gap-2 text-white border-none">
             <PlusCircle size={20} />
             Invite Talent
           </Button>
         </div>
       </div>
 
-      <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="flex-1 bg-white dark:bg-slate-900/50 rounded-2xl shadow-sm border border-gray-100 dark:border-white/10 overflow-hidden">
         <DataTable
           table={table}
           className="border-none h-[calc(100vh-250px)]"

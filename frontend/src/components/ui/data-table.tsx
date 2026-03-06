@@ -127,7 +127,7 @@ export function DataTable<TData>({
   return (
     <div
       className={cn(
-        "my-4 rounded-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden h-[600px]",
+        "my-4 rounded-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-slate-900/50 overflow-hidden",
         className
       )}
     >

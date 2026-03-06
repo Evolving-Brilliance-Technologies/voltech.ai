@@ -91,12 +91,12 @@ function MessagesComponent() {
   const messages = mockMessages[selectedChat] || [];
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-8rem)] bg-white dark:bg-slate-900/50 rounded-2xl shadow-sm border border-gray-100 dark:border-white/10 overflow-hidden transition-colors duration-300">
       <div className="flex flex-1 overflow-hidden">
         {/* Chats List */}
-        <div className="w-80 border-r border-gray-100 flex flex-col bg-gray-50/30">
-          <div className="p-4 border-b border-gray-100 bg-white">
-            <h2 className="text-xl font-bold text-gray-900 font-display flex items-center gap-2 mb-4">
+        <div className="w-80 border-r border-gray-100 dark:border-white/10 flex flex-col bg-gray-50/30 dark:bg-slate-950/30">
+          <div className="p-4 border-b border-gray-100 dark:border-white/10 bg-white dark:bg-transparent">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white font-display flex items-center gap-2 mb-4">
               <MessageSquare size={24} className="text-voltech-green" />
               Messages
             </h2>
@@ -107,7 +107,7 @@ function MessagesComponent() {
               />
               <Input
                 placeholder="Search chats..."
-                className="pl-10 h-10 bg-gray-50 border-none"
+                className="pl-10 h-10 bg-gray-50 dark:bg-slate-900 border-none dark:text-white"
               />
             </div>
           </div>
@@ -118,8 +118,8 @@ function MessagesComponent() {
                 type="button"
                 onClick={() => setSelectedChat(chat.id)}
                 className={cn(
-                  "w-full p-4 flex gap-3 hover:bg-white transition-colors text-left border-b border-gray-50",
-                  selectedChat === chat.id && "bg-white shadow-sm z-10"
+                  "w-full p-4 flex gap-3 hover:bg-white dark:hover:bg-slate-800/50 transition-colors text-left border-b border-gray-50 dark:border-white/5",
+                  selectedChat === chat.id && "bg-white dark:bg-slate-800/80 shadow-sm z-10"
                 )}
               >
                 <div className="relative shrink-0">
@@ -127,19 +127,19 @@ function MessagesComponent() {
                     {chat.user.initials}
                   </div>
                   {chat.user.status === "online" && (
-                    <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white" />
+                    <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start mb-1">
-                    <span className="font-bold text-gray-900 truncate">
+                    <span className="font-bold text-gray-900 dark:text-white truncate">
                       {chat.user.name}
                     </span>
                     <span className="text-[10px] text-gray-400 uppercase font-medium">
                       {chat.time}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-500 truncate">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
                     {chat.lastMessage}
                   </p>
                 </div>
@@ -154,17 +154,17 @@ function MessagesComponent() {
         </div>
 
         {/* Chat Area */}
-        <div className="flex-1 flex flex-col bg-white">
+        <div className="flex-1 flex flex-col bg-white dark:bg-transparent">
           {currentChat ? (
             <>
               {/* Chat Header */}
-              <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+              <div className="p-4 border-b border-gray-100 dark:border-white/10 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-voltech-green/10 flex items-center justify-center text-voltech-green font-bold">
                     {currentChat.user.initials}
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 leading-tight">
+                    <h3 className="font-bold text-gray-900 dark:text-white leading-tight">
                       {currentChat.user.name}
                     </h3>
                     <span className="text-xs text-emerald-500 flex items-center gap-1">
@@ -173,13 +173,13 @@ function MessagesComponent() {
                     </span>
                   </div>
                 </div>
-                <Button variant="outline" size="icon" type="button">
+                <Button variant="outline" size="icon" type="button" className="dark:border-white/10 dark:text-gray-400">
                   <User size={18} />
                 </Button>
               </div>
 
               {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/30">
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/30 dark:bg-slate-950/10">
                 {messages.map(msg => (
                   <div
                     key={msg.id}
@@ -190,15 +190,15 @@ function MessagesComponent() {
                   >
                     <div
                       className={cn(
-                        "p-4 rounded-2xl text-sm shadow-sm",
+                        "p-4 rounded-2xl text-sm shadow-sm transition-colors",
                         msg.isMe
                           ? "bg-voltech-green text-white rounded-tr-none"
-                          : "bg-white text-gray-700 border border-gray-100 rounded-tl-none"
+                          : "bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200 border border-gray-100 dark:border-white/5 rounded-tl-none"
                       )}
                     >
                       {msg.text}
                     </div>
-                    <span className="text-[10px] text-gray-400 mt-1 px-1 font-medium">
+                    <span className="text-[10px] text-gray-400 mt-1 px-1 font-medium italic">
                       {msg.time}
                     </span>
                   </div>
@@ -206,16 +206,16 @@ function MessagesComponent() {
               </div>
 
               {/* Chat Input */}
-              <div className="p-4 border-t border-gray-100">
+              <div className="p-4 border-t border-gray-100 dark:border-white/10">
                 <form onSubmit={e => e.preventDefault()} className="flex gap-3">
                   <Input
                     placeholder="Type a message..."
                     value={inputText}
                     onChange={e => setInputText(e.target.value)}
-                    className="flex-1 h-12 bg-gray-50 border-none focus-visible:ring-voltech-green"
+                    className="flex-1 h-12 bg-gray-50 dark:bg-slate-900/50 border-none focus-visible:ring-voltech-green dark:text-white dark:placeholder:text-gray-500"
                   />
                   <Button
-                    className="h-12 w-12 bg-voltech-green hover:bg-voltech-green/90 shrink-0"
+                    className="h-12 w-12 bg-voltech-green hover:bg-voltech-green/90 shrink-0 text-white"
                     size="icon"
                   >
                     <Send size={18} />
@@ -224,7 +224,7 @@ function MessagesComponent() {
               </div>
             </>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-gray-400 italic">
+            <div className="flex-1 flex flex-col items-center justify-center text-gray-400 dark:text-gray-600 italic">
               <MessageSquare size={48} className="mb-4 opacity-20" />
               Select a chat to start messaging
             </div>

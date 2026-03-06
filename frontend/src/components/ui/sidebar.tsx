@@ -70,7 +70,7 @@ const sidebarItemVariants = cva("flex transition-all duration-300 w-full", {
     },
     mode: {
       collapsed: "flex-col items-center justify-center text-center space-y-0",
-      expanded: "flex-row items-center justify-start text-left space-x-3 px-4 py-3",
+      expanded: "flex-row items-center justify-start text-left space-x-3 px-4 py-0.5",
     },
     state: {
       active:
@@ -514,7 +514,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
 
   return (
     <>
-      <nav className={`flex-1 py-0 ${className}`}>
+      <nav className={cn("flex-1 py-0 flex flex-col gap-0.5", className)}>
         {items.map((item, index) => {
           const hasFallback = !!item.fallbackName || !!item.fallbackIcon;
 
@@ -565,7 +565,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                       isActive(item.href)
                         ? activeItemClassName
                         : cn(inactiveItemClassName, hoverItemClassName),
-                      !isCollapsed && "py-1 px-3"
+                      !isCollapsed && "px-3"
                     ),
                   })}
                 >
@@ -674,7 +674,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             size: isCollapsed ? size : undefined,
             mode,
             state: isActive ? "active" : "inactive",
-            className: cn(className, !isCollapsed && "py-1 px-3"),
+            className: cn(className, !isCollapsed && "px-3"),
           })}
         >
           <div
