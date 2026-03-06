@@ -10,6 +10,12 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuSeparator,
+} from "./dropdown-menu";
 
 // Context for sidebar state
 interface SidebarContextType {
@@ -20,7 +26,7 @@ interface SidebarContextType {
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
-const useSidebar = () => {
+export const useSidebar = () => {
   const context = useContext(SidebarContext);
   if (!context) {
     throw new Error("useSidebar must be used within a Sidebar");
@@ -64,7 +70,7 @@ const sidebarItemVariants = cva("flex transition-all duration-300 w-full", {
     },
     mode: {
       collapsed: "flex-col items-center justify-center text-center space-y-0",
-      expanded: "flex-row items-center justify-start text-left space-x-2 px-3",
+      expanded: "flex-row items-center justify-start text-left space-x-3 px-4 py-3",
     },
     state: {
       active:
@@ -91,7 +97,7 @@ const sidebarIconVariants = cva(
       },
       mode: {
         collapsed: "",
-        expanded: "h-5 w-5",
+        expanded: "h-8 w-8",
       },
     },
     defaultVariants: {
@@ -110,7 +116,7 @@ const sidebarLabelVariants = cva("font-medium transition-all", {
     },
     mode: {
       collapsed: "",
-      expanded: "text-sm",
+      expanded: "text-[16px] font-bold",
     },
   },
   defaultVariants: {
@@ -169,6 +175,11 @@ interface SidebarComposition {
   Item: typeof SidebarItem;
   Separator: typeof SidebarSeparator;
   Section: typeof SidebarSection;
+  Header: typeof SidebarHeader;
+  Footer: typeof SidebarFooter;
+  Logo: typeof SidebarLogo;
+  Avatar: typeof UserAvatar;
+  UserMenu: typeof UserMenu;
 }
 
 type SidebarType = React.FC<SidebarProps> & SidebarComposition;
@@ -186,6 +197,20 @@ const Sidebar = (({
     setIsCollapsed(prev => !prev);
   };
 
+  const childrenArray = React.Children.toArray(children);
+  const header = childrenArray.find(
+    child => isValidElement(child) && (child.type as any).displayName === "SidebarHeader"
+  );
+  const footer = childrenArray.find(
+    child => isValidElement(child) && (child.type as any).displayName === "SidebarFooter"
+  );
+  const mainContent = childrenArray.filter(
+    child =>
+      isValidElement(child) &&
+      (child.type as any).displayName !== "SidebarHeader" &&
+      (child.type as any).displayName !== "SidebarFooter"
+  );
+
   return (
     <SidebarContext.Provider value={{ isCollapsed, toggleCollapse, size }}>
       <div
@@ -197,7 +222,11 @@ const Sidebar = (({
         )}
         style={{ boxShadow: "1px 0 2px rgba(0, 0, 0, 0.05)" }}
       >
-        <div className="flex-1 overflow-y-auto scrollbar-hide">{children}</div>
+        {header}
+        <div className="flex-1 flex flex-col overflow-y-auto scrollbar-hide">
+          {mainContent}
+        </div>
+        {footer}
 
         {/* Toggle Button Area */}
         <button
@@ -218,6 +247,223 @@ const Sidebar = (({
     </SidebarContext.Provider>
   );
 }) as SidebarType;
+
+interface SidebarHeaderProps {
+  children?: ReactNode;
+  className?: string;
+}
+
+const SidebarHeader: React.FC<SidebarHeaderProps> = ({ children, className = "" }) => {
+  return (
+    <div className={cn("border-b border-sidebar-separator", className)}>
+      {children}
+    </div>
+  );
+};
+SidebarHeader.displayName = "SidebarHeader";
+
+const sidebarLogoVariants = cva("flex items-center", {
+  variants: {
+    size: {
+      small: "gap-2",
+      medium: "gap-2",
+      large: "gap-2", // Kept gap-2 for Large in Sidebar to save space
+    },
+  },
+  defaultVariants: {
+    size: "medium",
+  },
+});
+
+const sidebarLogoTextVariants = cva("font-bold text-sidebar-text", {
+  variants: {
+    size: {
+      small: "text-lg",
+      medium: "text-xl",
+      large: "text-2xl",
+    },
+  },
+  defaultVariants: {
+    size: "medium",
+  },
+});
+
+interface SidebarLogoProps extends VariantProps<typeof sidebarLogoVariants> {
+  logo?: ReactNode;
+  text?: string;
+  href?: string;
+  onClick?: () => void;
+  className?: string;
+  children?: ReactNode;
+}
+
+const SidebarLogo: React.FC<SidebarLogoProps> = ({
+  logo,
+  text,
+  href,
+  onClick,
+  size,
+  className = "",
+  children,
+}) => {
+  const content = (
+    <>
+      {logo}
+      {text && <span className={sidebarLogoTextVariants({ size })}>{text}</span>}
+      {children}
+    </>
+  );
+
+  const baseClasses = sidebarLogoVariants({
+    size,
+    className: cn(className, "transition-all duration-300"),
+  });
+
+  if (href || onClick) {
+    return (
+      <a href={href} onClick={onClick} className={baseClasses}>
+        {content}
+      </a>
+    );
+  }
+
+  return <div className={baseClasses}>{content}</div>;
+};
+SidebarLogo.displayName = "SidebarLogo";
+
+interface SidebarFooterProps {
+  children?: ReactNode;
+  className?: string;
+}
+
+const SidebarFooter: React.FC<SidebarFooterProps> = ({ children, className = "" }) => {
+  return (
+    <div className={cn("border-t border-sidebar-separator mt-auto w-full", className)}>
+      {children}
+    </div>
+  );
+};
+SidebarFooter.displayName = "SidebarFooter";
+
+interface UserAvatarProps {
+  name: string;
+  email?: string;
+  initials?: string;
+  avatarUrl?: string;
+  className?: string;
+  avatarClassName?: string;
+  showChevron?: boolean;
+  onClick?: () => void;
+}
+
+const UserAvatar: React.FC<UserAvatarProps> = ({
+  name,
+  initials,
+  avatarUrl,
+  className = "",
+  avatarClassName = "bg-red-600 text-white",
+  onClick,
+}) => {
+  const userInitials =
+    initials ||
+    name
+      ?.split(" ")
+      .map(n => n[0])
+      .join("")
+      .substring(0, 2)
+      .toUpperCase();
+
+  const { isCollapsed } = useSidebar();
+
+  return (
+    <div
+      className={cn(
+        "flex items-center space-x-2 cursor-pointer bg-profile-bg hover:bg-voltech-green p-2 px-6 rounded-lg transition-colors w-full",
+        isCollapsed ? "justify-center" : "justify-start",
+        className
+      )}
+      onClick={onClick}
+    >
+      {avatarUrl ? (
+        <img
+          src={avatarUrl}
+          alt={name}
+          className="rounded-full object-cover shrink-0 h-8 w-8 transition-all"
+        />
+      ) : (
+        <div
+          className={cn(
+            "flex h-8 w-8 items-center justify-center font-semibold text-sm rounded-full shrink-0 transition-all",
+            avatarClassName
+          )}
+        >
+          {userInitials}
+        </div>
+      )}
+      {!isCollapsed && (
+        <div className="flex-1 min-w-0 overflow-hidden text-left pl-3">
+          <p className="text-[16px] font-medium text-sidebar-text truncate">{name}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+interface UserMenuProps extends UserAvatarProps {
+  children?: ReactNode;
+  menuClassName?: string;
+  showUserInfo?: boolean;
+  align?: "center" | "start" | "end";
+  side?: "top" | "right" | "bottom" | "left";
+  sideOffset?: number;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+  name,
+  email,
+  initials,
+  avatarUrl,
+  avatarClassName,
+  children,
+  menuClassName = "w-64",
+  showUserInfo = true,
+  align = "end",
+  side = "right",
+  sideOffset = 8,
+}) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div role="button" tabIndex={0} className="outline-none w-full">
+          <UserAvatar
+            name={name}
+            email={email}
+            initials={initials}
+            avatarUrl={avatarUrl}
+            avatarClassName={avatarClassName}
+            showChevron={true}
+          />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className={menuClassName} align={align} side={side} sideOffset={sideOffset}>
+        {showUserInfo && (
+          <>
+            <div className="px-4 py-3">
+              <p className="text-sm font-medium text-profile-text">{name}</p>
+              {email && (
+                <p className="text-xs text-profile-text-secondary">{email}</p>
+              )}
+            </div>
+            <DropdownMenuSeparator />
+          </>
+        )}
+
+        {children}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 
 interface SidebarNavProps {
   items: SidebarItem[];
@@ -338,7 +584,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                             : size === "large"
                               ? 32
                               : 28
-                          : 22,
+                          : 28, // This line is changed from 22 to 24
                       } as any)
                       : icon}
                   </div>
@@ -446,7 +692,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                     : size === "large"
                       ? 32
                       : 28
-                  : 22,
+                  : 28,
               } as any)
               : icon}
           </div>
@@ -531,6 +777,11 @@ Sidebar.Nav = SidebarNav;
 Sidebar.Item = SidebarItem;
 Sidebar.Separator = SidebarSeparator;
 Sidebar.Section = SidebarSection;
+Sidebar.Header = SidebarHeader;
+Sidebar.Footer = SidebarFooter;
+Sidebar.Logo = SidebarLogo;
+Sidebar.Avatar = UserAvatar;
+Sidebar.UserMenu = UserMenu;
 
 export { Sidebar };
 export type { SidebarItem };

@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/changemaker/__root'
 import { Route as LayoutRouteImport } from './routes/changemaker/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/changemaker/_layout/index'
 import { Route as LayoutUsersRouteImport } from './routes/changemaker/_layout/users'
-import { Route as LayoutLogsRouteImport } from './routes/changemaker/_layout/logs'
+import { Route as LayoutMessagesRouteImport } from './routes/changemaker/_layout/messages'
 import { Route as LayoutJobsRouteImport } from './routes/changemaker/_layout/jobs'
 import { Route as LayoutEventsRouteImport } from './routes/changemaker/_layout/events'
 
@@ -30,9 +30,9 @@ const LayoutUsersRoute = LayoutUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => LayoutRoute,
 } as any)
-const LayoutLogsRoute = LayoutLogsRouteImport.update({
-  id: '/logs',
-  path: '/logs',
+const LayoutMessagesRoute = LayoutMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutJobsRoute = LayoutJobsRouteImport.update({
@@ -50,13 +50,13 @@ export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
   '/events': typeof LayoutEventsRoute
   '/jobs': typeof LayoutJobsRoute
-  '/logs': typeof LayoutLogsRoute
+  '/messages': typeof LayoutMessagesRoute
   '/users': typeof LayoutUsersRoute
 }
 export interface FileRoutesByTo {
   '/events': typeof LayoutEventsRoute
   '/jobs': typeof LayoutJobsRoute
-  '/logs': typeof LayoutLogsRoute
+  '/messages': typeof LayoutMessagesRoute
   '/users': typeof LayoutUsersRoute
   '/': typeof LayoutIndexRoute
 }
@@ -65,21 +65,21 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/events': typeof LayoutEventsRoute
   '/_layout/jobs': typeof LayoutJobsRoute
-  '/_layout/logs': typeof LayoutLogsRoute
+  '/_layout/messages': typeof LayoutMessagesRoute
   '/_layout/users': typeof LayoutUsersRoute
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/events' | '/jobs' | '/logs' | '/users'
+  fullPaths: '/' | '/events' | '/jobs' | '/messages' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/events' | '/jobs' | '/logs' | '/users' | '/'
+  to: '/events' | '/jobs' | '/messages' | '/users' | '/'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/events'
     | '/_layout/jobs'
-    | '/_layout/logs'
+    | '/_layout/messages'
     | '/_layout/users'
     | '/_layout/'
   fileRoutesById: FileRoutesById
@@ -111,11 +111,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutUsersRouteImport
       parentRoute: typeof LayoutRoute
     }
-    '/_layout/logs': {
-      id: '/_layout/logs'
-      path: '/logs'
-      fullPath: '/logs'
-      preLoaderRoute: typeof LayoutLogsRouteImport
+    '/_layout/messages': {
+      id: '/_layout/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof LayoutMessagesRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/jobs': {
@@ -138,7 +138,7 @@ declare module '@tanstack/react-router' {
 interface LayoutRouteChildren {
   LayoutEventsRoute: typeof LayoutEventsRoute
   LayoutJobsRoute: typeof LayoutJobsRoute
-  LayoutLogsRoute: typeof LayoutLogsRoute
+  LayoutMessagesRoute: typeof LayoutMessagesRoute
   LayoutUsersRoute: typeof LayoutUsersRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
@@ -146,7 +146,7 @@ interface LayoutRouteChildren {
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutEventsRoute: LayoutEventsRoute,
   LayoutJobsRoute: LayoutJobsRoute,
-  LayoutLogsRoute: LayoutLogsRoute,
+  LayoutMessagesRoute: LayoutMessagesRoute,
   LayoutUsersRoute: LayoutUsersRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
