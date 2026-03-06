@@ -1,40 +1,36 @@
 name: Latest Changes
 
 on:
-  pull_request_target:
-    branches:
-      - master
-    types:
-      - closed
-  workflow_dispatch:
-    inputs:
-      number:
-        description: PR number
-        required: true
-      debug_enabled:
-        description: "Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)"
-        required: false
-        default: "false"
+    pull_request_target:
+        branches:
+            - master
+            - main
+        types:
+            - closed
+    workflow_dispatch:
+        inputs:
+            number:
+                description: PR number
+                required: true
 
 jobs:
-  latest-changes:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - uses: actions/checkout@v6
-        with:
-          # To allow latest-changes to commit to the main branch
-          token: ${{ secrets.LATEST_CHANGES }}
-      - uses: tiangolo/latest-changes@0.4.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          latest_changes_file: ./release-notes.md
-          latest_changes_header: "## Latest Changes"
-          end_regex: "^## "
-          debug_logs: true
-          label_header_prefix: "### "
+    latest-changes:
+        if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: read
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  fetch-depth: 0
+
+            - uses: tiangolo/latest-changes@0.4.1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  latest_changes_file: ./CHANGELOG.md
+                  latest_changes_header: "## Latest Changes"
+                  end_regex: "^## "
+                  debug_logs: true
+                  label_header_prefix: "### "

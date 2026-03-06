@@ -1,0 +1,507 @@
+# =============================================================================
+# Cloud Build configuration for voltech.ai
+# =============================================================================
+# Triggered by Cloud Build triggers on 'dev' / 'staging' branches.
+# Builds 8 Docker images in parallel, then deploys all to Cloud Run.
+#
+# Images built:
+#   backend, landing, impactmaker, changemaker, verifier, gov, partner, admin
+#
+# Substitutions (set by trigger):
+#   _ENV → "dev" | "staging"
+# =============================================================================
+
+substitutions:
+  _ENV: dev                # Overridden by Cloud Build trigger substitutions
+  _REGION: asia-southeast1
+  _PROJECT_ID: voltechai
+
+options:
+  machineType: E2_HIGHCPU_8
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
+# =============================================================================
+# STEP 0 — Resolve environment-specific variables
+# =============================================================================
+steps:
+  - id: "set-env-vars"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        set -e
+        SUFFIX=$(echo -n "${_PROJECT_ID}" | md5sum | cut -c1-7)
+
+        if [[ "${_ENV}" == "staging" ]]; then
+          echo "REPO=app-services-staging"                                         > /workspace/env.txt
+          echo "SQL_INSTANCE=voltech-sql-staging-$${SUFFIX}"                      >> /workspace/env.txt
+          echo "BUCKET=voltech-storage-staging-$${SUFFIX}"                        >> /workspace/env.txt
+          echo "BACKEND_SA=backend-sa-staging@${_PROJECT_ID}.iam.gserviceaccount.com" >> /workspace/env.txt
+          echo "VITE_API_URL=https://api.voltech.demoebt.com"                     >> /workspace/env.txt
+          echo "DOMAIN_BASE=voltech.demoebt.com"                                  >> /workspace/env.txt
+          echo "ENVIRONMENT=staging"                                               >> /workspace/env.txt
+        else
+          # dev (default)
+          echo "REPO=app-services-dev"                                             > /workspace/env.txt
+          echo "SQL_INSTANCE=voltech-sql-dev-$${SUFFIX}"                          >> /workspace/env.txt
+          echo "BUCKET=voltech-storage-dev-$${SUFFIX}"                            >> /workspace/env.txt
+          echo "BACKEND_SA=backend-sa-dev@${_PROJECT_ID}.iam.gserviceaccount.com" >> /workspace/env.txt
+          echo "VITE_API_URL=https://api.dev.voltech.demoebt.com"                  >> /workspace/env.txt
+          echo "DOMAIN_BASE=dev.voltech.demoebt.com"                              >> /workspace/env.txt
+          echo "ENVIRONMENT=local"                                                 >> /workspace/env.txt
+        fi
+
+        echo "=== Resolved env vars ==="
+        cat /workspace/env.txt
+
+  # ===========================================================================
+  # STEP 1 — Build: Backend
+  # ===========================================================================
+  - id: "build-backend"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/backend:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/backend:latest \
+          --platform linux/amd64 \
+          -f backend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: Landing frontend
+  # ===========================================================================
+  - id: "build-landing"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/landing:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/landing:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=landing \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: ImpactMaker frontend
+  # ===========================================================================
+  - id: "build-impactmaker"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/impactmaker:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/impactmaker:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=impactmaker \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: ChangeMaker frontend
+  # ===========================================================================
+  - id: "build-changemaker"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/changemaker:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/changemaker:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=changemaker \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: Verifier frontend
+  # ===========================================================================
+  - id: "build-verifier"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/verifier:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/verifier:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=verifier \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: Gov Dashboard frontend
+  # ===========================================================================
+  - id: "build-gov"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/gov:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/gov:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=gov \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: Partner Dashboard frontend
+  # ===========================================================================
+  - id: "build-partner"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/partner:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/partner:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=partner \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 1 — Build: Admin Portal frontend
+  # ===========================================================================
+  - id: "build-admin"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "DOCKER_BUILDKIT=1"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        docker build \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/admin:${SHORT_SHA} \
+          -t ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/admin:latest \
+          --platform linux/amd64 \
+          --build-arg TARGET=admin \
+          --build-arg VITE_API_URL=$${VITE_API_URL} \
+          -f frontend/Dockerfile \
+          .
+    waitFor: ["set-env-vars"]
+
+  # ===========================================================================
+  # STEP 2 — Push all images to Artifact Registry
+  # ===========================================================================
+  - id: "push-images"
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        REGISTRY="${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}"
+        docker push --all-tags $${REGISTRY}/backend
+        docker push --all-tags $${REGISTRY}/landing
+        docker push --all-tags $${REGISTRY}/impactmaker
+        docker push --all-tags $${REGISTRY}/changemaker
+        docker push --all-tags $${REGISTRY}/verifier
+        docker push --all-tags $${REGISTRY}/gov
+        docker push --all-tags $${REGISTRY}/partner
+        docker push --all-tags $${REGISTRY}/admin
+    waitFor:
+      - "build-backend"
+      - "build-landing"
+      - "build-impactmaker"
+      - "build-changemaker"
+      - "build-verifier"
+      - "build-gov"
+      - "build-partner"
+      - "build-admin"
+
+  # ===========================================================================
+  # STEP 3 — Deploy: Backend to Cloud Run
+  # ===========================================================================
+  - id: "deploy-backend"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+
+        # Build CORS origins from all portal URLs
+        ADMIN_URL="https://admin.$${DOMAIN_BASE}"
+        CHANGEMAKER_URL="https://changemaker.$${DOMAIN_BASE}"
+        IMPACTMAKER_URL="https://impactmaker.$${DOMAIN_BASE}"
+        LANDING_URL="https://$${DOMAIN_BASE}"
+        VERIFIER_URL="https://verifier.$${DOMAIN_BASE}"
+        GOV_URL="https://gov.$${DOMAIN_BASE}"
+        PARTNER_URL="https://partner.$${DOMAIN_BASE}"
+
+        CORS_ORIGINS="$${ADMIN_URL},$${CHANGEMAKER_URL},$${IMPACTMAKER_URL},$${LANDING_URL},$${VERIFIER_URL},$${GOV_URL},$${PARTNER_URL}"
+
+        cat > /workspace/backend-env.yaml << ENVEOF
+        ENVIRONMENT: $${ENVIRONMENT}
+        PROJECT_NAME: voltech.ai
+        POSTGRES_USER: postgres
+        POSTGRES_DB: app_${_ENV}
+        POSTGRES_SERVER: /cloudsql/${_PROJECT_ID}:${_REGION}:$${SQL_INSTANCE}
+        POSTGRES_PORT: "5432"
+        MINIO_BUCKET_NAME: $${BUCKET}
+        FIRST_SUPERUSER: admin@voltech.ai
+        BACKEND_CORS_ORIGINS: "$${CORS_ORIGINS}"
+        FRONTEND_HOST: $${LANDING_URL}
+        EMAILS_FROM_EMAIL: noreply@voltech.demoebt.com
+        SMTP_HOST: smtp-relay.brevo.com
+        SMTP_PORT: "587"
+        SMTP_TLS: "true"
+        STRUCTURED_LOGGING: "true"
+        LOGGING_LEVEL: INFO
+        ENVEOF
+
+        echo "=== Backend env vars ==="
+        cat /workspace/backend-env.yaml
+
+        gcloud run deploy ${_ENV}-backend \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/backend:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --service-account=$${BACKEND_SA} \
+          --add-cloudsql-instances=${_PROJECT_ID}:${_REGION}:$${SQL_INSTANCE} \
+          --env-vars-file=/workspace/backend-env.yaml \
+          --update-secrets="\
+        POSTGRES_PASSWORD=${_ENV}-postgres-password:latest,\
+        SECRET_KEY=${_ENV}-secret-key:latest,\
+        FIRST_SUPERUSER_PASSWORD=${_ENV}-first-superuser-password:latest,\
+        SMTP_USER=${_ENV}-smtp-user:latest,\
+        SMTP_PASSWORD=${_ENV}-smtp-password:latest" \
+          --memory=2Gi \
+          --cpu=2 \
+          --port=8000 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=300
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: Landing frontend to Cloud Run
+  # ===========================================================================
+  - id: "deploy-landing"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-landing \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/landing:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: ImpactMaker frontend to Cloud Run
+  # ===========================================================================
+  - id: "deploy-impactmaker"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-impactmaker \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/impactmaker:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: ChangeMaker frontend to Cloud Run
+  # ===========================================================================
+  - id: "deploy-changemaker"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-changemaker \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/changemaker:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: Verifier frontend to Cloud Run
+  # ===========================================================================
+  - id: "deploy-verifier"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-verifier \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/verifier:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: Gov Dashboard to Cloud Run
+  # ===========================================================================
+  - id: "deploy-gov"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-gov \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/gov:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: Partner Dashboard to Cloud Run
+  # ===========================================================================
+  - id: "deploy-partner"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-partner \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/partner:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+  # ===========================================================================
+  # STEP 3 — Deploy: Admin Portal to Cloud Run
+  # ===========================================================================
+  - id: "deploy-admin"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        source /workspace/env.txt
+        gcloud run deploy ${_ENV}-admin \
+          --project=${_PROJECT_ID} \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/$${REPO}/admin:${SHORT_SHA} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --cpu=1 \
+          --port=80 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --concurrency=80 \
+          --timeout=60
+    waitFor: ["push-images"]
+
+# =============================================================================
+# Build timeout: 50 minutes (8 parallel builds + deploys)
+# =============================================================================
+timeout: 3000s

@@ -11,6 +11,10 @@ node_modules/
 .env.local
 .env.*.local
 !.env.example
+!.env.gcp.*.example
+
+# GCP generated credentials reference — never commit!
+.gcp-secrets-reference.local
 
 # Python
 __pycache__/
@@ -27,3 +31,9 @@ coverage.xml
 # OS
 .DS_Store
 Thumbs.db
+
+
+otherProjects
+
+# TanStack Router
+.tanstack

@@ -61,15 +61,33 @@ class Settings(BaseSettings):
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
-        return PostgresDsn.build(
-            scheme="postgresql+psycopg",
-            username=self.POSTGRES_USER,
-            password=self.POSTGRES_PASSWORD,
-            host=self.POSTGRES_SERVER,
-            port=self.POSTGRES_PORT,
-            path=self.POSTGRES_DB,
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        # If POSTGRES_SERVER is a path (starts with /), it's a Unix socket (Cloud Run)
+        if self.POSTGRES_SERVER.startswith("/"):
+            # psycopg3 format for Unix sockets:
+            # postgresql+psycopg://user:pass@/dbname?host=/path/to/socket
+            return (
+                f"postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+                f"/{self.POSTGRES_DB}?host={self.POSTGRES_SERVER}"
+            )
+
+        return str(
+            PostgresDsn.build(
+                scheme="postgresql+psycopg",
+                username=self.POSTGRES_USER,
+                password=self.POSTGRES_PASSWORD,
+                host=self.POSTGRES_SERVER,
+                port=self.POSTGRES_PORT,
+                path=self.POSTGRES_DB,
+            )
         )
+
+    # Storage — MinIO for local/VM, GCS (via ADC) for Cloud Run
+    # On Cloud Run, MINIO_ROOT_USER and MINIO_ROOT_PASSWORD are not needed;
+    # the backend service account authenticates to GCS automatically.
+    MINIO_ROOT_USER: str | None = None
+    MINIO_ROOT_PASSWORD: str | None = None
+    MINIO_BUCKET_NAME: str = "voltech-bucket"
 
     SMTP_TLS: bool = True
     SMTP_SSL: bool = False
@@ -98,9 +116,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
-        if value == "changethis":
+        if value == "changethis" or value == "changeme":
             message = (
-                f'The value of {var_name} is "changethis", '
+                f'The value of {var_name} is "{value}", '
                 "for security, please change it, at least for deployments."
             )
             if self.ENVIRONMENT == "local":
@@ -115,6 +133,8 @@ class Settings(BaseSettings):
         self._check_default_secret(
             "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
         )
+        if self.MINIO_ROOT_PASSWORD is not None:
+            self._check_default_secret("MINIO_ROOT_PASSWORD", self.MINIO_ROOT_PASSWORD)
 
         return self
 

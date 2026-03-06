@@ -78,6 +78,16 @@ services:
     ports:
       - "8080:8080"
 
+  minio:
+    restart: "no"
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_BROWSER_REDIRECT_URL: "http://minio.${DOMAIN?Variable not set}:9001"
+      MINIO_SERVER_URL: "http://minio.${DOMAIN?Variable not set}:9000"
+
   backend:
     restart: "no"
     ports:
