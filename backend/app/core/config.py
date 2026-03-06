@@ -71,9 +71,12 @@ class Settings(BaseSettings):
             path=self.POSTGRES_DB,
         )
 
-    MINIO_ROOT_USER: str
-    MINIO_ROOT_PASSWORD: str
-    MINIO_BUCKET_NAME: str
+    # Storage — MinIO for local/VM, GCS (via ADC) for Cloud Run
+    # On Cloud Run, MINIO_ROOT_USER and MINIO_ROOT_PASSWORD are not needed;
+    # the backend service account authenticates to GCS automatically.
+    MINIO_ROOT_USER: str | None = None
+    MINIO_ROOT_PASSWORD: str | None = None
+    MINIO_BUCKET_NAME: str = "voltech-bucket"
 
     SMTP_TLS: bool = True
     SMTP_SSL: bool = False
@@ -119,7 +122,8 @@ class Settings(BaseSettings):
         self._check_default_secret(
             "FIRST_SUPERUSER_PASSWORD", self.FIRST_SUPERUSER_PASSWORD
         )
-        self._check_default_secret("MINIO_ROOT_PASSWORD", self.MINIO_ROOT_PASSWORD)
+        if self.MINIO_ROOT_PASSWORD is not None:
+            self._check_default_secret("MINIO_ROOT_PASSWORD", self.MINIO_ROOT_PASSWORD)
 
         return self
 

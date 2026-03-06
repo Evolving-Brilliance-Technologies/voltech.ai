@@ -11,6 +11,10 @@ node_modules/
 .env.local
 .env.*.local
 !.env.example
+!.env.gcp.*.example
+
+# GCP generated credentials reference — never commit!
+.gcp-secrets-reference.local
 
 # Python
 __pycache__/
