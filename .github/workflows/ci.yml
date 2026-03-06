@@ -112,7 +112,7 @@ jobs:
         if: steps.cache-docker-images.outputs.cache-hit != 'true'
         run: |
           mkdir -p /tmp/docker-images
-          docker save postgis/postgis:18-3.6-alpine -o /tmp/docker-images/postgis.tar
+          docker save postgres:18 -o /tmp/docker-images/postgres.tar
           docker save minio/minio -o /tmp/docker-images/minio.tar
 
       - name: Test Backend
