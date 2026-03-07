@@ -39,6 +39,85 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ── EBT Sidebar ──────────────────────────────────── */
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-text: var(--sidebar-text);
+  --color-sidebar-icon: var(--sidebar-icon);
+  --color-sidebar-item-active: var(--sidebar-item-active);
+  --color-sidebar-item-hover: var(--sidebar-item-hover);
+  --color-sidebar-separator: var(--sidebar-separator);
+
+  /* ── EBT Button ───────────────────────────────────── */
+  --color-button-focus-ring: var(--button-focus-ring);
+
+  /* ── EBT Card ─────────────────────────────────────── */
+  --color-card-bg: var(--card-bg);
+  --color-card-text: var(--card-text);
+  --color-card-border: var(--card-border);
+
+  /* ── EBT Input ────────────────────────────────────── */
+  --color-input-bg: var(--input-bg);
+  --color-input-text: var(--input-text);
+  --color-input-border: var(--input-border);
+  --color-input-placeholder: var(--input-placeholder);
+  --color-input-focus-ring: var(--input-focus-ring);
+  --color-input-disabled-bg: var(--input-disabled-bg);
+  --color-input-disabled-text: var(--input-disabled-text);
+  --color-input-filled-bg: var(--input-filled-bg);
+  --color-input-filled-focus-bg: var(--input-filled-focus-bg);
+  --color-input-error-border: var(--input-error-border);
+  --color-input-error-ring: var(--input-error-ring);
+
+  /* ── EBT Dropdown ─────────────────────────────────── */
+  --color-dropdown-bg: var(--dropdown-bg);
+  --color-dropdown-text: var(--dropdown-text);
+  --color-dropdown-border: var(--dropdown-border);
+  --color-dropdown-item-hover: var(--dropdown-item-hover);
+  --color-dropdown-separator: var(--dropdown-separator);
+
+  /* ── EBT Floating Toggle ──────────────────────────── */
+  --color-floating-toggle-bg: var(--floating-toggle-bg);
+  --color-floating-toggle-icon: var(--floating-toggle-icon);
+  --color-floating-toggle-focus-ring: var(--floating-toggle-focus-ring);
+
+  /* ── EBT TopBar ───────────────────────────────────── */
+  --color-topbar-bg: var(--topbar-bg);
+  --color-topbar-text: var(--topbar-text);
+  --color-topbar-border: var(--topbar-border);
+  --color-topbar-logo: var(--topbar-logo);
+  --color-topbar-nav-hover-bg: var(--topbar-nav-hover-bg);
+  --color-topbar-nav-hover-text: var(--topbar-nav-hover-text);
+  --color-topbar-nav-active-text: var(--topbar-nav-active-text);
+  --color-topbar-nav-active-border: var(--topbar-nav-active-border);
+  --color-topbar-toggle-bg: var(--topbar-toggle-bg);
+  --color-topbar-toggle-hover-bg: var(--topbar-toggle-hover-bg);
+  --color-topbar-toggle-icon: var(--topbar-toggle-icon);
+  --color-topbar-toggle-border: var(--topbar-toggle-border);
+
+  /* ── EBT Panel ────────────────────────────────────── */
+  --color-panel-button-hover: var(--panel-button-hover);
+  --color-panel-text: var(--panel-text);
+  --color-panel-text-secondary: var(--panel-text-secondary);
+
+  /* ── EBT Progress Bar ─────────────────────────────── */
+  --color-progressbar-bg: var(--progressbar-bg);
+  --color-progressbar-border: var(--progressbar-border);
+  --color-progressbar-tooltip-bg: var(--progressbar-tooltip-bg);
+  --color-progressbar-tooltip-text: var(--progressbar-tooltip-text);
+
+  /* ── EBT Profile / Avatar ─────────────────────────── */
+  --color-profile-bg: var(--profile-bg);
+  --color-profile-hover: var(--profile-hover);
+  --color-profile-text: var(--profile-text);
+  --color-profile-text-secondary: var(--profile-text-secondary);
+
+  /* ── Voltech ImpactMaker Specific ─────────────────── */
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --color-voltech-green: #00A676;
+  --color-voltech-mint: #E6F6F1;
+  --color-voltech-dark: #1A1A1A;
+  --color-voltech-gray: #F5F5F5;
 }
 
 :root {
@@ -74,26 +153,103 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* ── EBT Sidebar ── */
+  --sidebar-bg: #111827;
+  --sidebar-text: #f3f4f6;
+  --sidebar-icon: #9ca3af;
+  --sidebar-item-active: rgba(16, 185, 129, 0.1);
+  --sidebar-item-hover: #1f2937;
+  --sidebar-separator: #374151;
+
+  /* ── EBT Button ── */
+  --button-focus-ring: oklch(0.5982 0.10687 182.4689);
+
+  /* ── EBT Card ── */
+  --card-bg: #ffffff;
+  --card-text: #1f2937;
+  --card-border: #e5e7eb;
+
+  /* ── EBT Input ── */
+  --input-bg: #ffffff;
+  --input-text: #1f2937;
+  --input-border: #d1d5db;
+  --input-placeholder: #9ca3af;
+  --input-focus-ring: oklch(0.5982 0.10687 182.4689);
+  --input-disabled-bg: #f3f4f6;
+  --input-disabled-text: #9ca3af;
+  --input-filled-bg: #f3f4f6;
+  --input-filled-focus-bg: #e5e7eb;
+  --input-error-border: #ef4444;
+  --input-error-ring: #fca5a5;
+
+  /* ── EBT Dropdown ── */
+  --dropdown-bg: #ffffff;
+  --dropdown-text: #1f2937;
+  --dropdown-border: #e5e7eb;
+  --dropdown-item-hover: #f3f4f6;
+  --dropdown-separator: #e5e7eb;
+
+  /* ── EBT Floating Toggle ── */
+  --floating-toggle-bg: oklch(0.5982 0.10687 182.4689);
+  --floating-toggle-icon: #ffffff;
+  --floating-toggle-focus-ring: oklch(0.5982 0.10687 182.4689);
+
+  /* ── EBT TopBar ── */
+  --topbar-bg: #ffffff;
+  --topbar-text: #374151;
+  --topbar-border: #e5e7eb;
+  --topbar-logo: #1f2937;
+  --topbar-nav-hover-bg: #f3f4f6;
+  --topbar-nav-hover-text: #111827;
+  --topbar-nav-active-text: oklch(0.5982 0.10687 182.4689);
+  --topbar-nav-active-border: oklch(0.5982 0.10687 182.4689);
+  --topbar-toggle-bg: #f3f4f6;
+  --topbar-toggle-hover-bg: #e5e7eb;
+  --topbar-toggle-icon: #374151;
+  --topbar-toggle-border: #e5e7eb;
+
+  /* ── EBT Panel ── */
+  --color-panel-bg: rgba(255, 255, 255, 0.95);
+  --color-panel-border: #e5e7eb;
+  --color-panel-shadow: rgba(0, 0, 0, 0.1);
+  --color-panel-header-bg: rgba(249, 250, 251, 0.8);
+  --color-panel-header-border: #e5e7eb;
+  --panel-button-hover: #f3f4f6;
+  --panel-text: #1f2937;
+  --panel-text-secondary: #6b7280;
+
+  /* ── EBT Progress Bar ── */
+  --progressbar-bg: #f3f4f6;
+  --progressbar-border: #e5e7eb;
+  --progressbar-tooltip-bg: #1f2937;
+  --progressbar-tooltip-text: #ffffff;
+
+  /* ── EBT Profile / Avatar ── */
+  --profile-bg: transparent;
+  --profile-hover: #f3f4f6;
+  --profile-text: #1f2937;
+  --profile-text-secondary: #6b7280;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.10 0.01 240);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.18 0.01 240);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.18 0.01 240);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.65 0.10687 182.4689);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.269 0 0);
+  --secondary: oklch(0.24 0.01 240);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.24 0.01 240);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.24 0.01 240);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --border: oklch(1 0 0 / 18%);
+  --input: oklch(1 0 0 / 22%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -108,6 +264,83 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* ── EBT Sidebar ── */
+  --sidebar-bg: oklch(0.08 0.01 240);
+  --sidebar-text: #f3f4f6;
+  --sidebar-icon: #9ca3af;
+  --sidebar-item-active: rgba(16, 185, 129, 0.15);
+  --sidebar-item-hover: oklch(0.12 0.01 240);
+  --sidebar-separator: oklch(1 0 0 / 10%);
+
+  /* ── EBT Button ── */
+  --button-focus-ring: oklch(0.65 0.10687 182.4689);
+
+  /* ── EBT Card ── */
+  --card-bg: oklch(0.16 0.01 240);
+  --card-text: #f3f4f6;
+  --card-border: oklch(1 0 0 / 15%);
+
+  /* ── EBT Input ── */
+  --input-bg: oklch(0.12 0.01 240);
+  --input-text: #f3f4f6;
+  --input-border: oklch(1 0 0 / 20%);
+  --input-placeholder: #6b7280;
+  --input-focus-ring: oklch(0.65 0.10687 182.4689);
+  --input-disabled-bg: oklch(0.08 0.01 240);
+  --input-disabled-text: #4b5563;
+  --input-filled-bg: oklch(0.14 0.01 240);
+  --input-filled-focus-bg: oklch(0.16 0.01 240);
+  --input-error-border: #dc2626;
+  --input-error-ring: #991b1b;
+
+  /* ── EBT Dropdown ── */
+  --dropdown-bg: oklch(0.16 0.01 240);
+  --dropdown-text: #f3f4f6;
+  --dropdown-border: oklch(1 0 0 / 15%);
+  --dropdown-item-hover: oklch(0.20 0.01 240);
+  --dropdown-separator: oklch(1 0 0 / 10%);
+
+  /* ── EBT Floating Toggle ── */
+  --floating-toggle-bg: oklch(0.65 0.10687 182.4689);
+  --floating-toggle-icon: #ffffff;
+  --floating-toggle-focus-ring: oklch(0.65 0.10687 182.4689);
+
+  /* ── EBT TopBar ── */
+  --topbar-bg: #111827;
+  --topbar-text: #d1d5db;
+  --topbar-border: #374151;
+  --topbar-logo: #f3f4f6;
+  --topbar-nav-hover-bg: #1f2937;
+  --topbar-nav-hover-text: #ffffff;
+  --topbar-nav-active-text: oklch(0.65 0.10687 182.4689);
+  --topbar-nav-active-border: oklch(0.65 0.10687 182.4689);
+  --topbar-toggle-bg: #1f2937;
+  --topbar-toggle-hover-bg: #374151;
+  --topbar-toggle-icon: #d1d5db;
+  --topbar-toggle-border: #374151;
+
+  /* ── EBT Panel ── */
+  --color-panel-bg: rgba(17, 24, 39, 0.95);
+  --color-panel-border: #374151;
+  --color-panel-shadow: rgba(0, 0, 0, 0.4);
+  --color-panel-header-bg: rgba(31, 41, 55, 0.8);
+  --color-panel-header-border: #374151;
+  --panel-button-hover: #374151;
+  --panel-text: #f3f4f6;
+  --panel-text-secondary: #9ca3af;
+
+  /* ── EBT Progress Bar ── */
+  --progressbar-bg: #1f2937;
+  --progressbar-border: #374151;
+  --progressbar-tooltip-bg: #f3f4f6;
+  --progressbar-tooltip-text: #111827;
+
+  /* ── EBT Profile / Avatar ── */
+  --profile-bg: transparent;
+  --profile-hover: #1f2937;
+  --profile-text: #f3f4f6;
+  --profile-text-secondary: #9ca3af;
 }
 
 @layer base {
@@ -120,5 +353,24 @@
   button,
   [role="button"] {
     cursor: pointer;
+  }
+}
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-dark {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .bg-earth-gradient {
+    background: linear-gradient(135deg, #00A676 0%, #007A5E 100%);
   }
 }
