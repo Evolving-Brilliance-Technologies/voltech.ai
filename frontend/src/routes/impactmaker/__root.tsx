@@ -181,7 +181,8 @@ function ImpactMakerLayout() {
   const lastScrollY = useRef(0);
 
   // Check if we are in a specific chat (/messages/$id)
-  const isChatOpen = pathname.startsWith("/messages/") && pathname !== "/messages/";
+  const isChatOpen =
+    pathname.startsWith("/messages/") && pathname !== "/messages/";
   const finalNavVisible = isChatOpen ? false : isNavVisible;
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -236,10 +237,12 @@ function ImpactMakerLayout() {
         )}
         onScroll={handleScroll}
       >
-        <div className={cn(
-          "w-full mx-auto md:max-w-none md:p-8 flex flex-col h-full",
-          isChatOpen ? "" : "min-h-full"
-        )}>
+        <div
+          className={cn(
+            "w-full mx-auto md:max-w-none md:p-8 flex flex-col h-full",
+            isChatOpen ? "" : "min-h-full"
+          )}
+        >
           <HeadContent />
           <Outlet />
           {/* Mobile bottom nav spacer to prevent content overlap */}

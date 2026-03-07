@@ -3,8 +3,8 @@ import { Send, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { mockConversations, mockMessages } from "@/lib/messagesData";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/messages/$id" as any)({
   component: ChatView,

@@ -7,8 +7,8 @@ import {
 import { motion } from "framer-motion";
 import { MessageSquare, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { mockConversations } from "@/lib/messagesData";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/messages" as any)({
   component: MessagesLayout,
