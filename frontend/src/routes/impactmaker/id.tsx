@@ -13,11 +13,11 @@ function DigitalID() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col h-full"
+      className="flex flex-col w-full h-fit flex-1"
     >
       <Header title="Digital ID" />
 
-      <main className="flex-1 px-4 md:px-0 py-6 md:py-8 space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-8 xl:grid-cols-3">
+      <main className="flex-1 px-4 md:px-0 pt-6 pb-32 md:py-8 space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-8 xl:grid-cols-3">
         <div className="hidden md:block col-span-full mb-2">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
             Digital Volunteer ID

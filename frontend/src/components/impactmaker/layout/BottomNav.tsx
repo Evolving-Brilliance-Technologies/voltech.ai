@@ -11,11 +11,20 @@ const navItems = [
   { icon: User, label: "Profile", path: "/profile" },
 ];
 
-export function BottomNav() {
+interface BottomNavProps {
+  isVisible?: boolean;
+}
+
+export function BottomNav({ isVisible = true }: BottomNavProps) {
   const matchRoute = useMatchRoute();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 glass dark:bg-linear-to-t dark:from-black/90 dark:to-slate-900/80 dark:border-white/5 backdrop-blur-md pb-[env(safe-area-inset-bottom)]">
+    <div
+      className={cn(
+        "fixed bottom-0 left-0 right-0 z-50 glass dark:bg-linear-to-t dark:from-black/90 dark:to-slate-900/80 dark:border-white/5 backdrop-blur-md pb-[env(safe-area-inset-bottom)] transition-all duration-300 transform",
+        !isVisible && "translate-y-[120%] opacity-0 pointer-events-none"
+      )}
+    >
       <nav className="flex items-center justify-around px-2 h-16 max-w-md mx-auto relative transition-all duration-300">
         {navItems.map(item => {
           const Icon = item.icon;

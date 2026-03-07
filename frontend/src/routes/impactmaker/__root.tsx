@@ -18,6 +18,7 @@ import {
   Sun,
   User as UserIcon,
 } from "lucide-react";
+import { useRef, useState } from "react";
 import ErrorComponent from "@/components/Common/ErrorComponent";
 import NotFound from "@/components/Common/NotFound";
 import { BottomNav } from "@/components/impactmaker/layout/BottomNav";
@@ -176,8 +177,28 @@ function ImpactMakerLayout() {
   const navigate = useNavigate();
   const pathname = location.pathname;
 
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  // Check if we are in a specific chat (/messages/$id)
+  const isChatOpen = pathname.startsWith("/messages/") && pathname !== "/messages/";
+  const finalNavVisible = isChatOpen ? false : isNavVisible;
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const currentScrollY = e.currentTarget.scrollTop;
+
+    // Auto-hide bottom nav after scrolling down a bit
+    if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+      if (isNavVisible) setIsNavVisible(false);
+    } else if (currentScrollY < lastScrollY.current) {
+      // Show immediately when scrolling up
+      if (!isNavVisible) setIsNavVisible(true);
+    }
+    lastScrollY.current = currentScrollY;
+  };
+
   return (
-    <div className="flex h-screen bg-[#FAFAFA] dark:bg-background overflow-hidden flex-col md:flex-row w-full max-w-full">
+    <div className="flex h-dvh bg-[#FAFAFA] dark:bg-background overflow-hidden flex-col md:flex-row w-full max-w-full">
       {/* Desktop Sidebar (hidden on mobile) */}
       <div className="hidden md:flex shrink-0">
         <Sidebar size="medium">
@@ -208,16 +229,29 @@ function ImpactMakerLayout() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-y-auto w-full transition-colors duration-300 relative">
-        <div className="w-full h-full pb-32 md:pb-0 mx-auto md:max-w-none md:p-8">
+      <div
+        className={cn(
+          "flex flex-1 flex-col w-full transition-colors duration-300 relative scroll-smooth h-full min-h-0",
+          isChatOpen ? "overflow-hidden" : "overflow-y-auto"
+        )}
+        onScroll={handleScroll}
+      >
+        <div className={cn(
+          "w-full mx-auto md:max-w-none md:p-8 flex flex-col h-full",
+          isChatOpen ? "" : "min-h-full"
+        )}>
           <HeadContent />
           <Outlet />
+          {/* Mobile bottom nav spacer to prevent content overlap */}
+          {!isChatOpen && (
+            <div className="h-36 md:hidden shrink-0 w-full pointer-events-none" />
+          )}
         </div>
       </div>
 
       {/* Mobile Bottom Navigation (hidden on desktop) */}
       <div className="md:hidden">
-        <BottomNav />
+        <BottomNav isVisible={finalNavVisible} />
       </div>
 
       <div className="hidden md:block">
