@@ -107,9 +107,6 @@ function Dashboard() {
                 <h2 className="font-display text-4xl font-semibold mb-2">
                   Your Impact
                 </h2>
-                <p className="text-white/80 text-lg mb-0">
-                  You're among the top 5% of changemakers in KL this month!
-                </p>
               </div>
 
               <div className="grid grid-cols-3 gap-4 flex-1">

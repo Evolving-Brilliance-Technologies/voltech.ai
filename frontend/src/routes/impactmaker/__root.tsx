@@ -220,8 +220,10 @@ function ImpactMakerLayout() {
         <BottomNav />
       </div>
 
-      <TanStackRouterDevtools position="bottom-right" />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <div className="hidden md:block">
+        <TanStackRouterDevtools position="top-right" />
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-right" />
+      </div>
     </div>
   );
 }
