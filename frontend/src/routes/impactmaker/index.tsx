@@ -79,7 +79,7 @@ function Dashboard() {
         {/* Upcoming Shifts */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display text-xl font-semibold text-gray-900">
+            <h3 className="font-display text-xl font-semibold text-gray-900 dark:text-white">
               Upcoming Shifts
             </h3>
             <button
@@ -90,25 +90,31 @@ function Dashboard() {
             </button>
           </div>
 
-          <div className="bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex gap-4 items-center active:scale-[0.98] transition-transform cursor-pointer">
-            <div className="bg-voltech-mint text-voltech-green w-16 h-16 rounded-2xl flex flex-col items-center justify-center shrink-0">
+          <div className="bg-white dark:bg-slate-800/40 rounded-3xl p-4 shadow-sm border border-gray-100 dark:border-white/10 flex gap-4 items-center active:scale-[0.98] transition-transform cursor-pointer group hover:bg-gray-50 dark:hover:bg-slate-800/60 duration-300">
+            <div className="bg-voltech-mint dark:bg-emerald-900/30 text-voltech-green dark:text-emerald-400 w-16 h-16 rounded-2xl flex flex-col items-center justify-center shrink-0 shadow-sm transition-colors group-hover:bg-voltech-green group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-voltech-dark">
               <span className="text-xs font-semibold uppercase tracking-wider">
                 Apr
               </span>
               <span className="text-2xl font-bold leading-none mt-0.5">22</span>
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900 mb-1.5 text-base">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-1.5 text-base group-hover:text-voltech-green dark:group-hover:text-emerald-400 transition-colors">
                 ASEAN Earth Cleanup
               </h4>
               <div className="space-y-1">
-                <p className="text-xs text-gray-500 flex items-center gap-1.5">
-                  <Calendar size={14} className="text-gray-400" /> 08:00 AM -
-                  12:00 PM
+                <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                  <Calendar
+                    size={14}
+                    className="text-gray-400 dark:text-gray-500"
+                  />{" "}
+                  08:00 AM - 12:00 PM
                 </p>
-                <p className="text-xs text-gray-500 flex items-center gap-1.5">
-                  <MapPin size={14} className="text-gray-400" /> Central Park,
-                  KL
+                <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                  <MapPin
+                    size={14}
+                    className="text-gray-400 dark:text-gray-500"
+                  />{" "}
+                  Central Park, KL
                 </p>
               </div>
             </div>
@@ -117,28 +123,32 @@ function Dashboard() {
 
         {/* Loyalty & Training */}
         <section className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-[0.98] transition-transform cursor-pointer">
-            <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mb-3">
+          <div className="bg-white dark:bg-slate-800/40 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-white/10 flex flex-col items-center text-center active:scale-[0.98] transition-all cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/60 duration-300">
+            <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/30 text-amber-500 dark:text-amber-400 rounded-full flex items-center justify-center mb-3 shadow-inner">
               <Award size={24} />
             </div>
-            <h4 className="font-bold text-gray-900 text-lg">1,250</h4>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mt-1">
+            <h4 className="font-bold text-gray-900 dark:text-white text-lg">
+              1,250
+            </h4>
+            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">
               Voltech Coins
             </p>
-            <div className="mt-3 text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+            <div className="mt-3 text-[10px] font-semibold bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full">
               Silver Tier
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-[0.98] transition-transform cursor-pointer">
-            <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3">
+          <div className="bg-white dark:bg-slate-800/40 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-white/10 flex flex-col items-center text-center active:scale-[0.98] transition-all cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/60 duration-300">
+            <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-full flex items-center justify-center mb-3 shadow-inner">
               <Zap size={24} />
             </div>
-            <h4 className="font-bold text-gray-900 text-lg">Level 3</h4>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mt-1">
+            <h4 className="font-bold text-gray-900 dark:text-white text-lg">
+              Level 3
+            </h4>
+            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">
               Training
             </p>
-            <div className="mt-3 text-[10px] font-semibold bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+            <div className="mt-3 text-[10px] font-semibold bg-blue-50 dark:bg-emerald-900/30 text-blue-600 dark:text-emerald-400 px-2 py-1 rounded-full">
               Eco Warrior
             </div>
           </div>

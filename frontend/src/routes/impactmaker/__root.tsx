@@ -15,7 +15,6 @@ import {
   MessageSquare,
   Monitor,
   Moon,
-  Settings,
   Sun,
   User as UserIcon,
 } from "lucide-react";
@@ -56,6 +55,7 @@ const themeOptions = [
 
 const UserMenuWrapper = () => {
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Sidebar.UserMenu
@@ -69,10 +69,10 @@ const UserMenuWrapper = () => {
       <button
         type="button"
         className="w-full px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 transition-colors flex items-center gap-2 text-sm dark:text-gray-300"
-        onClick={() => {}}
+        onClick={() => navigate({ to: "/profile" as any })}
       >
-        <Settings className="w-4 h-4" />
-        <span>Settings</span>
+        <UserIcon className="w-4 h-4" />
+        <span>Profile</span>
       </button>
 
       <div className="flex px-2 py-2 gap-1">
@@ -177,7 +177,7 @@ function ImpactMakerLayout() {
   const pathname = location.pathname;
 
   return (
-    <div className="flex h-screen bg-[#FAFAFA] dark:bg-[#0B1120] overflow-hidden flex-col md:flex-row w-full max-w-full">
+    <div className="flex h-screen bg-[#FAFAFA] dark:bg-background overflow-hidden flex-col md:flex-row w-full max-w-full">
       {/* Desktop Sidebar (hidden on mobile) */}
       <div className="hidden md:flex shrink-0">
         <Sidebar size="medium">
@@ -198,15 +198,7 @@ function ImpactMakerLayout() {
               description="Your conversations"
               onClick={() => navigate({ to: "/messages" as any })}
               isActive={pathname === "/messages"}
-              className="mt-1"
-            />
-            <Sidebar.Item
-              icon={<UserIcon />}
-              label="Profile"
-              description="Your account details"
-              onClick={() => navigate({ to: "/profile" as any })}
-              isActive={pathname === "/profile"}
-              className="mb-1"
+              className="mt-1 mb-1"
             />
             <div className="px-1 items-center">
               <UserMenuWrapper />
@@ -217,7 +209,7 @@ function ImpactMakerLayout() {
 
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-y-auto w-full transition-colors duration-300 relative">
-        <div className="w-full h-full pb-20 md:pb-0 mx-auto max-w-md md:max-w-7xl md:px-8">
+        <div className="w-full h-full pb-20 md:pb-0 mx-auto max-w-md md:max-w-none md:p-8">
           <HeadContent />
           <Outlet />
         </div>
