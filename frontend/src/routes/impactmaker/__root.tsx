@@ -209,7 +209,7 @@ function ImpactMakerLayout() {
 
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-y-auto w-full transition-colors duration-300 relative">
-        <div className="w-full h-full pb-20 md:pb-0 mx-auto max-w-md md:max-w-none md:p-8">
+        <div className="w-full h-full pb-20 md:pb-0 mx-auto md:max-w-none md:p-8">
           <HeadContent />
           <Outlet />
         </div>
