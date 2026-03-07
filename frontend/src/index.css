@@ -233,23 +233,23 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.10 0.01 240);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.18 0.01 240);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.18 0.01 240);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.65 0.10687 182.4689);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.269 0 0);
+  --secondary: oklch(0.24 0.01 240);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.24 0.01 240);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.24 0.01 240);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --border: oklch(1 0 0 / 18%);
+  --input: oklch(1 0 0 / 22%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -266,40 +266,40 @@
   --sidebar-ring: oklch(0.556 0 0);
 
   /* ── EBT Sidebar ── */
-  --sidebar-bg: #111827;
+  --sidebar-bg: oklch(0.08 0.01 240);
   --sidebar-text: #f3f4f6;
   --sidebar-icon: #9ca3af;
-  --sidebar-item-active: rgba(16, 185, 129, 0.1);
-  --sidebar-item-hover: #1f2937;
-  --sidebar-separator: #374151;
+  --sidebar-item-active: rgba(16, 185, 129, 0.15);
+  --sidebar-item-hover: oklch(0.12 0.01 240);
+  --sidebar-separator: oklch(1 0 0 / 10%);
 
   /* ── EBT Button ── */
   --button-focus-ring: oklch(0.65 0.10687 182.4689);
 
   /* ── EBT Card ── */
-  --card-bg: #1f2937;
+  --card-bg: oklch(0.16 0.01 240);
   --card-text: #f3f4f6;
-  --card-border: #374151;
+  --card-border: oklch(1 0 0 / 15%);
 
   /* ── EBT Input ── */
-  --input-bg: #1f2937;
+  --input-bg: oklch(0.12 0.01 240);
   --input-text: #f3f4f6;
-  --input-border: #4b5563;
+  --input-border: oklch(1 0 0 / 20%);
   --input-placeholder: #6b7280;
   --input-focus-ring: oklch(0.65 0.10687 182.4689);
-  --input-disabled-bg: #111827;
+  --input-disabled-bg: oklch(0.08 0.01 240);
   --input-disabled-text: #4b5563;
-  --input-filled-bg: #374151;
-  --input-filled-focus-bg: #4b5563;
+  --input-filled-bg: oklch(0.14 0.01 240);
+  --input-filled-focus-bg: oklch(0.16 0.01 240);
   --input-error-border: #dc2626;
   --input-error-ring: #991b1b;
 
   /* ── EBT Dropdown ── */
-  --dropdown-bg: #1f2937;
+  --dropdown-bg: oklch(0.16 0.01 240);
   --dropdown-text: #f3f4f6;
-  --dropdown-border: #374151;
-  --dropdown-item-hover: #374151;
-  --dropdown-separator: #374151;
+  --dropdown-border: oklch(1 0 0 / 15%);
+  --dropdown-item-hover: oklch(0.20 0.01 240);
+  --dropdown-separator: oklch(1 0 0 / 10%);
 
   /* ── EBT Floating Toggle ── */
   --floating-toggle-bg: oklch(0.65 0.10687 182.4689);

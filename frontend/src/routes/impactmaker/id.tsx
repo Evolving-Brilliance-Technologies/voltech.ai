@@ -115,12 +115,12 @@ function DigitalID() {
             ].map((cert, i) => (
               <div
                 key={i}
-                className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-white/5 flex items-center gap-4 active:scale-[0.98] transition-transform cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/50"
+                className="bg-white dark:bg-slate-800/40 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-white/10 flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/60 duration-300"
               >
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-inner ${
                     cert.verified
-                      ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400"
+                      ? "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
                       : "bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400"
                   }`}
                 >
@@ -138,8 +138,8 @@ function DigitalID() {
                     <span
                       className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
                         cert.verified
-                          ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400"
-                          : "bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400"
+                          ? "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+                          : "bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300"
                       }`}
                     >
                       {cert.type}

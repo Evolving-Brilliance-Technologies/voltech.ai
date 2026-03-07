@@ -10,6 +10,8 @@ x-backend-env: &backend-env
   SMTP_USER: ${SMTP_USER}
   SMTP_PASSWORD: ${SMTP_PASSWORD}
   EMAILS_FROM_EMAIL: ${EMAILS_FROM_EMAIL}
+  SMTP_TLS: ${SMTP_TLS}
+  SMTP_PORT: ${SMTP_PORT}
   POSTGRES_SERVER: db
   POSTGRES_PORT: ${POSTGRES_PORT}
   POSTGRES_DB: ${POSTGRES_DB}
@@ -120,6 +122,28 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-minio-https.tls.certresolver=le
       - traefik.http.routers.${STACK_NAME?Variable not set}-minio-http.middlewares=https-redirect
 
+  mailcatcher:
+    image: schickling/mailcatcher
+    restart: unless-stopped
+    networks:
+      - traefik-public
+      - default
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+      - traefik.http.services.${STACK_NAME?Variable not set}-mailcatcher.loadbalancer.server.port=1080
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-http.rule=Host(`mail.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-http.entrypoints=http
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-https.rule=Host(`mail.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-https.entrypoints=https
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-https.tls=true
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-https.tls.certresolver=le
+      - traefik.http.routers.${STACK_NAME?Variable not set}-mailcatcher-http.middlewares=https-redirect
+
   backend:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     restart: unless-stopped
@@ -132,6 +156,9 @@ services:
         restart: true
       minio:
         condition: service_healthy
+        restart: true
+      mailcatcher:
+        condition: service_started
         restart: true
     env_file:
       - .env
