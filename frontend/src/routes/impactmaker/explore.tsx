@@ -112,11 +112,11 @@ function Explore() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col h-full"
+      className="flex flex-col w-full h-fit flex-1"
     >
       <Header title="Explore Events" />
 
-      <div className="sticky top-0 md:top-8 z-30 bg-[#FAFAFA]/90 dark:bg-slate-900/90 backdrop-blur-md px-4 md:px-0 py-3 md:pb-6 border-b border-gray-100 dark:border-white/5 md:border-none">
+      <div className="sticky top-0 md:top-8 z-40 bg-[#FAFAFA]/90 dark:bg-slate-900/90 backdrop-blur-md px-4 md:px-0 py-3 md:pb-6 border-b border-gray-100 dark:border-white/5 md:border-none">
         <div className="hidden md:block mb-6">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
             Explore Events
@@ -164,7 +164,7 @@ function Explore() {
         </div>
       </div>
 
-      <main className="flex-1 px-4 md:px-0 py-6 grid content-start grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 md:gap-6">
+      <main className="flex-1 px-4 md:px-0 pt-6 pb-32 md:py-6 grid content-start grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 md:gap-6">
         {events.map(event => (
           <motion.div
             key={event.id}

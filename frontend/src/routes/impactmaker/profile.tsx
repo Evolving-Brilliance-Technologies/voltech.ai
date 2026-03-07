@@ -33,11 +33,11 @@ function Profile() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col h-full"
+      className="flex flex-col w-full h-fit flex-1"
     >
       <Header title="Profile" />
 
-      <div className="px-4 md:px-0 py-3 md:py-8 sticky top-0 z-30 bg-[#FAFAFA]/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-white/5 md:border-none">
+      <div className="px-4 md:px-0 py-3 md:py-8 relative z-30 bg-[#FAFAFA]/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-white/5 md:border-none">
         <div className="hidden md:block mb-6">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
             Your Profile
@@ -48,7 +48,7 @@ function Profile() {
         </div>
       </div>
 
-      <main className="flex-1 px-4 md:px-0 py-6 md:py-0 w-full mb-8">
+      <main className="flex-1 px-4 md:px-0 py-6 md:py-0 w-full mb-8 pb-32 md:pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column - Profile & Quick Actions */}
           <div className="lg:col-span-5 xl:col-span-4 space-y-6">
@@ -182,7 +182,7 @@ function Profile() {
 
             <button
               type="button"
-              className="w-full bg-red-50 text-red-600 font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-red-100 transition-colors border border-red-100 dark:bg-red-950/20 dark:border-red-900/30 dark:hover:bg-red-900/40"
+              className="w-full bg-white dark:bg-slate-800/40 text-red-500 dark:text-red-400 font-semibold py-4 rounded-3xl flex items-center justify-center gap-2 hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-[0.98] transition-all duration-300 border border-gray-100 dark:border-white/10 shadow-sm"
             >
               <LogOut size={20} />
               Sign Out

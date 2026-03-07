@@ -37,3 +37,6 @@ otherProjects
 
 # TanStack Router
 .tanstack
+.ruff_cache
+.biome_cache
+.mypy_cache
