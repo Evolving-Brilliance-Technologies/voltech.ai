@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
 import react from "@vitejs/plugin-react-swc"
 import { defineConfig } from "vite"
+import { VitePWA } from "vite-plugin-pwa"
 
 // Targets: landing, impactmaker, changemaker, verifier, gov, partner, admin
 const target = process.env.APP_TARGET || 'impactmaker';
@@ -26,6 +27,49 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
+      pwaAssets: {
+        disabled: false,
+        config: true,
+      },
+      manifest: {
+        name: `Voltech AI - ${target.charAt(0).toUpperCase() + target.slice(1)}`,
+        short_name: target.charAt(0).toUpperCase() + target.slice(1),
+        description: `Voltech AI ${target} Portal`,
+        theme_color: '#10b981',
+        background_color: '#020617',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ]
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true
+      },
+      devOptions: {
+        enabled: true
+      }
+    })
   ],
 
   define: {
